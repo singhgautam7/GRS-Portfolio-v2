@@ -1,23 +1,36 @@
+import { getAllContent } from '@/lib/content';
 import { HeroSection } from '@/components/sections/hero';
-import { AboutSection } from '@/components/sections/about';
-import { ExperienceSection } from '@/components/sections/experience';
-import { FeaturedSection } from '@/components/sections/featured-projects';
-import { ProjectsGrid } from '@/components/sections/projects-grid';
+import { ResumeOverview } from '@/components/sections/resume-overview';
+import { ProjectsTable } from '@/components/sections/projects-table';
+import { BlogPreview } from '@/components/sections/blog-preview';
 import { ContactSection } from '@/components/sections/contact';
-import { getJobs, getProjects, getFeatured } from '@/lib/content';
 
-export default function Home() {
-  const jobs = getJobs();
-  const projects = getProjects();
-  const featured = getFeatured();
+export default function HomePage() {
+  const { jobs, projects, featured, posts } = getAllContent();
+
+  // Merge featured + projects for the unified table, deduplicating by slug
+  const allProjects = [...projects];
+  for (const f of featured) {
+    if (!allProjects.find((p) => p.slug === f.slug)) {
+      allProjects.push({
+        ...f,
+        company: undefined,
+        showInProjects: true,
+        tech: f.tech,
+        slug: f.slug,
+        content: f.content,
+        date: f.date,
+        title: f.title,
+      });
+    }
+  }
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-page px-6 md:px-12 lg:px-[150px]">
+    <main>
       <HeroSection />
-      <AboutSection />
-      <ExperienceSection jobs={jobs} />
-      <FeaturedSection featured={featured} />
-      <ProjectsGrid projects={projects} />
+      <ResumeOverview jobs={jobs} />
+      <ProjectsTable projects={allProjects} />
+      <BlogPreview posts={posts} />
       <ContactSection />
     </main>
   );

@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { Sun, Moon, Monitor } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function ThemeToggle() {
@@ -15,33 +15,19 @@ export function ThemeToggle() {
     return <div className="h-9 w-9" />;
   }
 
-  const themes = [
-    { value: 'dark', icon: Moon, label: 'Dark mode' },
-    { value: 'light', icon: Sun, label: 'Light mode' },
-    { value: 'system', icon: Monitor, label: 'System theme' },
-  ] as const;
-
-  const cycleTheme = () => {
-    const order = ['dark', 'light', 'system'] as const;
-    const current = order.indexOf(theme as (typeof order)[number]);
-    const next = order[(current + 1) % order.length];
-    setTheme(next);
-  };
-
-  const current = themes.find((t) => t.value === theme) || themes[0];
-  const Icon = current.icon;
+  const isDark = theme === 'dark';
 
   return (
     <button
-      onClick={cycleTheme}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className={cn(
-        'flex h-9 w-9 items-center justify-center rounded-md',
-        'text-muted-foreground transition-colors hover:text-green',
+        'flex h-9 w-9 items-center justify-center rounded-lg',
+        'text-muted-foreground transition-all duration-200',
+        'hover:bg-emerald-tint hover:text-primary',
       )}
-      aria-label={current.label}
-      title={`Current: ${current.label}. Click to cycle.`}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <Icon size={18} />
+      {isDark ? <Sun size={18} /> : <Moon size={18} />}
     </button>
   );
 }

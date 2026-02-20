@@ -1,130 +1,119 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { ExternalLink, Github, Folder } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Github, Folder, ChevronDown } from 'lucide-react';
 import type { Project } from '@/lib/content';
 
 interface ProjectsGridProps {
   projects: Project[];
 }
 
-const INITIAL_SHOW = 6;
-
 export function ProjectsGrid({ projects }: ProjectsGridProps) {
+  const INITIAL = 4;
   const [showAll, setShowAll] = useState(false);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  const visibleProjects = projects.filter((p) => p.showInProjects !== false);
-  const displayed = showAll ? visibleProjects : visibleProjects.slice(0, INITIAL_SHOW);
-
-  if (!visibleProjects.length) return null;
+  const visible = showAll ? projects : projects.slice(0, INITIAL);
 
   return (
-    <section id="projects" className="mx-auto max-w-content py-24 md:py-32" ref={ref}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, ease: [0.645, 0.045, 0.355, 1] }}
-      >
-        <h2 className="text-center text-2xl font-semibold text-foreground">
-          Other Noteworthy Projects
-        </h2>
-        <p className="mb-12 text-center font-mono text-sm text-green">
-          <a href="/archive" className="transition-colors hover:text-green/80">
-            view the archive
-          </a>
-        </p>
+    <section className="py-section-sm">
+      <div className="mx-auto max-w-content px-6">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.5 }}
+          className="section-heading text-foreground"
+        >
+          More Projects
+        </motion.h2>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {displayed.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
-          ))}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <AnimatePresence mode="popLayout">
+            {visible
+              .filter((p) => p.showInProjects)
+              .map((project, i) => (
+                <motion.article
+                  key={project.slug}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                  className="group flex flex-col rounded-lg border border-border bg-card p-5 transition-all duration-200 hover:border-primary/20"
+                >
+                  <div className="mb-3 flex items-start justify-between">
+                    <Folder
+                      size={20}
+                      className="text-primary"
+                    />
+                    <div className="flex gap-2">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground transition-colors hover:text-primary"
+                        >
+                          <Github size={16} />
+                        </a>
+                      )}
+                      {project.external && (
+                        <a
+                          href={project.external}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground transition-colors hover:text-primary"
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <h3 className="mb-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+                    {project.title}
+                  </h3>
+
+                  <p className="mb-4 flex-1 text-xs leading-relaxed text-muted-foreground">
+                    {project.content.trim().slice(0, 120)}
+                    {project.content.trim().length > 120 ? '...' : ''}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <span
+                        key={t}
+                        className="rounded bg-secondary px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </motion.article>
+              ))}
+          </AnimatePresence>
         </div>
 
-        {visibleProjects.length > INITIAL_SHOW && (
-          <div className="mt-12 text-center">
+        {projects.filter((p) => p.showInProjects).length > INITIAL && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-8 flex justify-center"
+          >
             <button
               onClick={() => setShowAll(!showAll)}
-              className="rounded border border-green px-7 py-3 font-mono text-sm text-green transition-all hover:bg-green-tint"
+              className="group flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 font-mono text-sm text-muted-foreground transition-all hover:border-primary/40 hover:text-primary"
             >
-              Show {showAll ? 'Less' : 'More'}
+              {showAll ? 'Show Less' : 'Show More'}
+              <ChevronDown
+                size={14}
+                className={`transition-transform ${showAll ? 'rotate-180' : ''}`}
+              />
             </button>
-          </div>
+          </motion.div>
         )}
-      </motion.div>
-    </section>
-  );
-}
-
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-30px' });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.3, delay: (index % 3) * 0.1 }}
-      className={cn(
-        'group relative flex flex-col justify-between rounded-lg bg-card p-7 transition-all duration-300',
-        'hover:-translate-y-2 hover:shadow-lg hover:shadow-green/5',
-      )}
-    >
-      <div>
-        <div className="mb-8 flex items-center justify-between">
-          <Folder size={40} className="text-green" strokeWidth={1} />
-          <div className="flex items-center gap-3">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="text-muted-foreground transition-colors hover:text-green"
-              >
-                <Github size={20} />
-              </a>
-            )}
-            {project.external && (
-              <a
-                href={project.external}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="External Link"
-                className="text-muted-foreground transition-colors hover:text-green"
-              >
-                <ExternalLink size={20} />
-              </a>
-            )}
-          </div>
-        </div>
-
-        <h3 className="mb-3 text-xl font-semibold text-foreground transition-colors group-hover:text-green">
-          <a
-            href={project.external || project.github || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="static before:absolute before:inset-0 before:z-0 before:block"
-          >
-            {project.title}
-          </a>
-        </h3>
-
-        <p className="text-sm leading-relaxed text-muted-foreground">
-          {project.content.trim().slice(0, 200)}
-          {project.content.trim().length > 200 ? '...' : ''}
-        </p>
       </div>
-
-      <ul className="mt-5 flex flex-wrap gap-2 font-mono text-[11px] text-muted-foreground/70">
-        {project.tech.map((t) => (
-          <li key={t}>{t}</li>
-        ))}
-      </ul>
-    </motion.div>
+    </section>
   );
 }

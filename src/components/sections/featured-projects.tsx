@@ -1,127 +1,93 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import type { Featured } from '@/lib/content';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
 
 interface FeaturedSectionProps {
   featured: Featured[];
 }
 
 export function FeaturedSection({ featured }: FeaturedSectionProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
-  if (!featured.length) return null;
-
   return (
-    <section className="mx-auto max-w-content py-24 md:py-32" ref={ref}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, ease: [0.645, 0.045, 0.355, 1] }}
-      >
-        <h2 className="numbered-heading font-semibold text-foreground">
-          Some Things I&apos;ve Built
-        </h2>
+    <section id="projects" className="py-section-sm">
+      <div className="mx-auto max-w-content px-6">
+        <motion.h2
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-80px' }}
+          className="section-heading text-foreground"
+        >
+          Selected Projects
+        </motion.h2>
 
-        <div className="space-y-24">
+        <div className="grid gap-5 sm:grid-cols-2">
           {featured.map((project, i) => (
-            <FeaturedProject key={project.slug} project={project} index={i} />
-          ))}
-        </div>
-      </motion.div>
-    </section>
-  );
-}
-
-function FeaturedProject({ project, index }: { project: Featured; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const isEven = index % 2 === 0;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.1 }}
-      className={`relative grid items-center gap-3 md:grid-cols-12`}
-    >
-      {/* Project Image / Visual */}
-      <div
-        className={`relative md:col-span-7 ${isEven ? 'md:col-start-1' : 'md:col-start-6'} row-start-1`}
-      >
-        <a
-          href={project.external || project.github || '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative block"
-        >
-          <div className="relative overflow-hidden rounded bg-navy-dark">
-            <div className="aspect-video w-full bg-gradient-to-br from-green/5 via-transparent to-green/10">
-              <div className="flex h-full w-full items-center justify-center">
-                <span className="font-mono text-4xl text-green/20">{project.title}</span>
+            <motion.article
+              key={project.slug}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="group relative flex flex-col rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_8px_30px_rgba(0,255,179,0.06)]"
+            >
+              {/* Header */}
+              <div className="mb-4 flex items-start justify-between">
+                <h3 className="text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
+                  {project.title}
+                </h3>
+                <div className="flex gap-2">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                      aria-label={`GitHub: ${project.title}`}
+                    >
+                      <Github size={18} />
+                    </a>
+                  )}
+                  {project.external && (
+                    <a
+                      href={project.external}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground transition-colors hover:text-primary"
+                      aria-label={`Live: ${project.title}`}
+                    >
+                      <ExternalLink size={18} />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="absolute inset-0 bg-green/10 mix-blend-multiply transition-opacity group-hover:opacity-0" />
-          </div>
-        </a>
-      </div>
 
-      {/* Project Content */}
-      <div
-        className={`relative z-10 md:col-span-7 ${isEven ? 'md:col-start-6 md:text-right' : 'md:col-start-1 md:text-left'} row-start-1`}
-      >
-        <p className="mb-2 font-mono text-xs text-green">Featured Project</p>
-        <h3 className="mb-5 text-2xl font-semibold text-foreground">
-          <a
-            href={project.external || project.github || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-green"
-          >
-            {project.title}
-          </a>
-        </h3>
-        <div className="rounded bg-card p-6 text-sm leading-relaxed text-muted-foreground shadow-xl">
-          {project.content.trim()}
-        </div>
-        <ul
-          className={`mt-5 flex flex-wrap gap-3 font-mono text-xs text-muted-foreground ${isEven ? 'md:justify-end' : 'md:justify-start'}`}
-        >
-          {project.tech.map((t) => (
-            <li key={t}>{t}</li>
+              {/* Description */}
+              <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground">
+                {project.content.trim()}
+              </p>
+
+              {/* Tech chips */}
+              <div className="flex flex-wrap gap-1.5">
+                {project.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-md bg-secondary px-2 py-0.5 font-mono text-xs text-muted-foreground"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </motion.article>
           ))}
-        </ul>
-        <div
-          className={`mt-3 flex items-center gap-4 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}
-        >
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Link"
-              className="text-muted-foreground transition-colors hover:text-green"
-            >
-              <Github size={20} />
-            </a>
-          )}
-          {project.external && (
-            <a
-              href={project.external}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="External Link"
-              className="text-muted-foreground transition-colors hover:text-green"
-            >
-              <ExternalLink size={20} />
-            </a>
-          )}
         </div>
       </div>
-    </motion.div>
+    </section>
   );
 }

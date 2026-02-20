@@ -1,15 +1,18 @@
 export const siteConfig = {
     name: 'Gautam Singh',
-    title: "Gautam's Portfolio",
+    title: "Gautam Singh — Engineer II",
     description:
-        'Gautam Singh is a software engineer who specializes in Python and developing web apps.',
+        'Gautam Singh is a backend & infrastructure engineer building scalable systems, cloud-native architectures, and developer-focused tooling.',
     siteUrl: 'https://www.singhgautam.com',
     email: 'gautamsingh1997@gmail.com',
-    role: 'Engineer II',
+    role: 'Senior Software Engineer',
+    roleDetail: 'AI Systems & Full-Stack Platforms',
     company: 'Hashicorp | An IBM Company',
     companyUrl: 'https://www.hashicorp.com/',
     location: 'Bangalore, India',
-    bio: "I'm a software engineer specializing in building web applications, with an expertise in Python.",
+    bio: 'Building scalable systems, cloud-native architectures, and developer-focused tooling.',
+    summary:
+        "I'm a software engineer with 7+ years of experience specializing in backend development, cloud infrastructure, and building scalable systems. Currently at Hashicorp (IBM), I manage and maintain HVD clusters for high availability, automate operations with Terraform and Kubernetes, and build developer tooling that drives efficiency across teams.",
     resumeUrl:
         'https://github.com/singhgautam7/singhgautam7/raw/main/assets/GRS_resume.docx',
     githubUsername: 'singhgautam7',
@@ -44,11 +47,13 @@ export const siteConfig = {
 
     navLinks: [
         { name: 'About', url: '/#about' },
-        { name: 'Experience', url: '/#jobs' },
-        { name: 'Work', url: '/#projects' },
-        { name: 'Blog', url: '/blog' },
+        { name: 'Experience', url: '/#experience' },
+        { name: 'Projects', url: '/#projects' },
         { name: 'Contact', url: '/#contact' },
+        { name: 'Blog', url: '/blogs' },
     ],
+
+    heroChips: ['Python', 'Go', 'Cloud', 'Systems', 'APIs', 'Infrastructure'],
 
     skills: {
         languages: ['Python', 'TypeScript', 'JavaScript', 'Go', 'SQL'],

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteConfig } from '@/lib/config';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -11,121 +12,140 @@ import { Menu, X } from 'lucide-react';
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [isMounted, setIsMounted] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState('');
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setIsMounted(true);
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50);
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
+  const updateScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (currentScrollY / docHeight) * 100 : 0;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    setScrollProgress(progress);
+    setIsScrolled(currentScrollY > 40);
+
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+    setLastScrollY(currentScrollY);
   }, [lastScrollY]);
 
-  const navVariants = {
-    hidden: { y: -100, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
+  // Section observer
+  useEffect(() => {
+    if (pathname !== '/') return;
+    const sections = document.querySelectorAll('section[id]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+            // Update URL hash without scrolling
+            window.history.replaceState(null, '', `/#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -50% 0px' },
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    return () => window.removeEventListener('scroll', updateScroll);
+  }, [updateScroll]);
+
+  const isActive = (url: string) => {
+    if (url.startsWith('/#')) {
+      return activeSection === url.replace('/#', '');
+    }
+    return pathname === url;
   };
 
   return (
     <>
+      {/* Scroll progress */}
+      <div
+        className="scroll-progress"
+        style={{ width: `${scrollProgress}%` }}
+      />
+
       <motion.header
-        variants={navVariants}
-        animate={isVisible ? 'visible' : 'hidden'}
-        transition={{ duration: 0.3, ease: [0.645, 0.045, 0.355, 1] }}
+        initial={{ y: -80 }}
+        animate={{ y: isVisible ? 0 : -80 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
           'fixed left-0 right-0 top-0 z-50 transition-all duration-300',
           isScrolled
-            ? 'bg-background/80 py-4 shadow-lg backdrop-blur-lg'
-            : 'bg-transparent py-6',
+            ? 'border-b border-border/50 bg-background/80 backdrop-blur-xl'
+            : 'bg-transparent',
         )}
       >
-        <nav className="mx-auto flex max-w-page items-center justify-between px-6 md:px-12 lg:px-[50px]">
+        <nav className="mx-auto flex h-nav-height max-w-page items-center justify-between px-6 lg:px-12">
           {/* Logo */}
           <Link href="/" className="group relative z-10">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="font-mono text-xl font-bold text-green transition-colors hover:text-green/80"
-            >
-              {'<GS />'}
-            </motion.div>
+            <span className="font-mono text-lg font-bold text-primary transition-opacity hover:opacity-80">
+              GS
+            </span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden items-center gap-1 md:flex">
-            {isMounted &&
-              siteConfig.navLinks.map((link, i) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.1 }}
-                >
-                  <Link
-                    href={link.url}
-                    className="group relative px-4 py-2 font-mono text-xs text-muted-foreground transition-colors hover:text-green"
-                  >
-                    <span className="text-green">0{i + 1}. </span>
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
+            {siteConfig.navLinks.map((link, i) => (
+              <Link
+                key={link.name}
+                href={link.url}
+                className={cn(
+                  'relative px-3 py-2 font-mono text-xs transition-colors',
+                  isActive(link.url)
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                {link.name}
+                {isActive(link.url) && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute bottom-0 left-3 right-3 h-px bg-primary"
+                    transition={{ duration: 0.2 }}
+                  />
+                )}
+              </Link>
+            ))}
 
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: siteConfig.navLinks.length * 0.1 }}
-              className="ml-2"
-            >
+            <div className="ml-4 flex items-center gap-4">
               <ThemeToggle />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: (siteConfig.navLinks.length + 1) * 0.1,
-              }}
-            >
               <a
                 href={siteConfig.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-2 rounded border border-green px-4 py-2 font-mono text-xs text-green transition-all hover:bg-green-tint"
+                className="rounded-lg border border-primary/30 px-4 py-1.5 font-mono text-xs text-primary transition-all hover:bg-emerald-tint"
               >
                 Resume
               </a>
-            </motion.div>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-3 md:hidden">
+          {/* Mobile */}
+          <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative z-50 p-2 text-green"
+              className="relative z-50 p-2 text-primary"
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </nav>
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <>
@@ -133,26 +153,23 @@ export function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-40 bg-background/90 backdrop-blur-md md:hidden"
               onClick={() => setIsMenuOpen(false)}
             />
             <motion.aside
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-              className="fixed bottom-0 right-0 top-0 z-40 flex w-[min(75vw,400px)] flex-col items-center justify-center gap-8 bg-card shadow-2xl md:hidden"
+              transition={{ type: 'spring', damping: 24, stiffness: 200 }}
+              className="fixed bottom-0 right-0 top-0 z-40 flex w-[min(75vw,320px)] flex-col items-center justify-center gap-6 bg-card md:hidden"
             >
-              {siteConfig.navLinks.map((link, i) => (
+              {siteConfig.navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.url}
                   onClick={() => setIsMenuOpen(false)}
-                  className="font-mono text-lg text-foreground transition-colors hover:text-green"
+                  className="font-mono text-base text-foreground transition-colors hover:text-primary"
                 >
-                  <span className="block text-center text-sm text-green">
-                    0{i + 1}.
-                  </span>
                   {link.name}
                 </Link>
               ))}
@@ -160,7 +177,7 @@ export function Navbar() {
                 href={siteConfig.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 rounded border border-green px-8 py-3 font-mono text-sm text-green transition-all hover:bg-green-tint"
+                className="mt-2 rounded-lg border border-primary/30 px-6 py-2.5 font-mono text-sm text-primary transition-all hover:bg-emerald-tint"
               >
                 Resume
               </a>
