@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Skip to content — hidden until focused */
+.skip-to-content {
+  position: absolute;
+  top: auto;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 200;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 0 0 4px 0;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--background));
+  text-decoration: none;
+  line-height: 1;
+}
+
+.skip-to-content:focus,
+.skip-to-content:active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  overflow: auto;
+  outline: 0;
+}
+
+@layer base {
+  :root {
+    /* Light mode colors */
+    --background: 0 0% 98%;
+    --foreground: 222 47% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 20%;
+    --primary: 168 100% 70%;
+    --primary-foreground: 222 47% 5%;
+    --secondary: 222 20% 92%;
+    --secondary-foreground: 222 47% 20%;
+    --muted: 222 20% 92%;
+    --muted-foreground: 222 20% 50%;
+    --accent: 168 100% 70%;
+    --accent-foreground: 222 47% 5%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 20% 85%;
+    --input: 222 20% 85%;
+    --ring: 168 100% 70%;
+    --radius: 0.25rem;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 220 33% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 220 33% 98%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 220 33% 98%;
+    --primary: 168 100% 70%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 222 40% 25%;
+    --secondary-foreground: 220 33% 98%;
+    --muted: 0 0% 6%;
+    --muted-foreground: 225 20% 63%;
+    --accent: 168 100% 70%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 40% 25%;
+    --input: 222 40% 25%;
+    --ring: 168 100% 70%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+  }
+
+  .dark html {
+    scrollbar-color: #495670 #000000;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  ::selection {
+    @apply bg-navy-lightest text-slate-lightest;
+  }
+
+  .dark ::selection {
+    @apply bg-navy-lightest text-slate-lightest;
+  }
+}
+
+/* Custom scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #495670;
+  border: 3px solid #000000;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border: 3px solid #f5f5f5;
+  border-radius: 10px;
+}
+
+/* Numbered headings */
+.numbered-heading {
+  @apply relative flex w-full items-center whitespace-nowrap;
+  font-size: clamp(26px, 5vw, 32px);
+  counter-increment: section;
+  margin: 10px 0 40px;
+}
+
+.numbered-heading::before {
+  @apply relative font-mono font-normal text-green;
+  bottom: 4px;
+  content: '0' counter(section) '.';
+  margin-right: 10px;
+  font-size: clamp(16px, 3vw, 20px);
+}
+
+.numbered-heading::after {
+  content: '';
+  display: block;
+  position: relative;
+  top: -5px;
+  width: 300px;
+  height: 1px;
+  margin-left: 20px;
+  @apply bg-navy-lightest;
+}
+
+@media (max-width: 1080px) {
+  .numbered-heading::after {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .numbered-heading::after {
+    width: 100%;
+  }
+}
+
+/* Big heading */
+.big-heading {
+  margin: 0;
+  font-size: clamp(40px, 8vw, 80px);
+}
+
+.medium-heading {
+  margin: 0;
+  font-size: clamp(40px, 8vw, 60px);
+}
+
+/* Fancy list */
+.fancy-list {
+  @apply m-0 list-none p-0 text-lg;
+}
+
+.fancy-list li {
+  @apply relative mb-2.5 pl-[30px];
+}
+
+.fancy-list li::before {
+  content: '▹';
+  @apply absolute left-0 text-green;
+}
+
+/* Content body */
+body {
+  counter-reset: section;
+}
+
+/* Focus styles */
+:focus {
+  outline: 2px dashed hsl(var(--primary));
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+  outline-offset: 0px;
+}
+
+:focus-visible {
+  outline: 2px dashed hsl(var(--primary));
+  outline-offset: 3px;
+}
+
+/* Prose overrides for MDX */
+.prose {
+  @apply max-w-none;
+}
+
+.dark .prose {
+  --tw-prose-body: #8892b0;
+  --tw-prose-headings: #ccd6f6;
+  --tw-prose-links: #64ffda;
+  --tw-prose-bold: #ccd6f6;
+  --tw-prose-code: #e6f1ff;
+  --tw-prose-pre-bg: #0c0c0c;
+  --tw-prose-pre-code: #e6f1ff;
+  --tw-prose-quotes: #a8b2d1;
+  --tw-prose-quote-borders: #64ffda;
+  --tw-prose-counters: #8892b0;
+  --tw-prose-bullets: #64ffda;
+  --tw-prose-hr: #233554;
+  --tw-prose-th-borders: #233554;
+  --tw-prose-td-borders: #233554;
+}
