@@ -34,7 +34,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
       <article className="mx-auto max-w-[700px]">
         <Link
           href="/blog"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-sm text-green transition-colors hover:text-green/80"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-sm text-primary transition-colors hover:text-primary/80"
         >
           <ArrowLeft size={16} />
           All Posts
@@ -58,7 +58,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               <>
                 <span>·</span>
                 {post.tags.map((tag) => (
-                  <span key={tag} className="text-green">
+                  <span key={tag} className="text-primary">
                     #{tag}
                   </span>
                 ))}

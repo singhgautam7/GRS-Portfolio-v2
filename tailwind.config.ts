@@ -48,14 +48,24 @@ const config: Config = {
                 emerald: {
                     DEFAULT: "#00FFB3",
                     dim: "#00cc8f",
-                    tint: "rgba(0, 255, 179, 0.08)",
-                    glow: "rgba(0, 255, 179, 0.15)",
+                    tint: "var(--emerald-tint, rgba(0, 255, 179, 0.08))",
+                    glow: "var(--emerald-glow, rgba(0, 255, 179, 0.15))",
                 },
             },
             borderRadius: {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
+                xl: "1rem",
+                "2xl": "1.5rem",
+                "3xl": "1.75rem",
+                full: "9999px",
+            },
+            boxShadow: {
+                'elevation': '0 8px 24px rgba(0, 0, 0, 0.25)',
+                'elevation-sm': '0 2px 8px rgba(0, 0, 0, 0.15)',
+                'elevation-md': '0 4px 16px rgba(0, 0, 0, 0.2)',
+                'elevation-lg': '0 8px 24px rgba(0, 0, 0, 0.25)',
             },
             fontFamily: {
                 sans: [

@@ -2,11 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
-import { SocialSidebar } from '@/components/social-sidebar';
-import { EmailSidebar } from '@/components/email-sidebar';
-import { CommandPalette } from '@/components/command-palette';
+import { LayoutWrapper } from '@/components/layout-wrapper';
 import { siteConfig } from '@/lib/config';
 
 const inter = Inter({
@@ -59,14 +55,7 @@ export default function RootLayout({
           <a href="#content" className="skip-to-content">
             Skip to Content
           </a>
-          <Navbar />
-          <SocialSidebar />
-          <EmailSidebar />
-          <div id="content">
-            {children}
-          </div>
-          <Footer />
-          <CommandPalette />
+          <LayoutWrapper>{children}</LayoutWrapper>
         </ThemeProvider>
       </body>
     </html>

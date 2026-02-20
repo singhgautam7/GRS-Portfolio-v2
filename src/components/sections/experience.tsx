@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import type { Job } from '@/lib/content';
 
 interface ExperienceSectionProps {
@@ -10,88 +9,85 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ jobs }: ExperienceSectionProps) {
-  const [activeTab, setActiveTab] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   if (!jobs.length) return null;
 
   return (
-    <section id="jobs" className="mx-auto max-w-[700px] py-24 md:py-32" ref={ref}>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, ease: [0.645, 0.045, 0.355, 1] }}
-      >
-        <h2 className="numbered-heading font-semibold text-foreground">
-          Where I&apos;ve Worked
-        </h2>
+    <section id="experience" className="py-section-sm">
+      <div className="mx-auto max-w-content px-6" ref={ref}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, ease: [0.645, 0.045, 0.355, 1] }}
+        >
+          <h2 className="section-heading text-foreground">
+            Experience
+          </h2>
 
-        <div className="flex flex-col md:flex-row md:gap-5">
-          {/* Tab List */}
-          <div
-            role="tablist"
-            className="relative flex overflow-x-auto md:flex-col md:overflow-x-visible"
-          >
-            {jobs.map((job, i) => (
-              <button
-                key={job.slug}
-                role="tab"
-                aria-selected={activeTab === i}
-                onClick={() => setActiveTab(i)}
-                className={cn(
-                  'whitespace-nowrap border-b-2 px-5 py-3 font-mono text-xs transition-all md:border-b-0 md:border-l-2 md:text-left',
-                  activeTab === i
-                    ? 'border-green bg-green-tint text-green'
-                    : 'border-border text-muted-foreground hover:bg-green-tint/50 hover:text-green',
-                )}
-              >
-                {job.company.split('|')[0].trim()}
-              </button>
-            ))}
-          </div>
+          <div className="relative space-y-0">
+            {/* Timeline line */}
+            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border" />
 
-          {/* Tab Panels */}
-          <div className="relative min-h-[350px] w-full py-3 md:py-0">
             {jobs.map((job, i) => (
-              <div
+              <motion.div
                 key={job.slug}
-                role="tabpanel"
-                hidden={activeTab !== i}
-                className={cn(activeTab === i ? 'block' : 'hidden')}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
+                className="group relative pl-8 pb-8 last:pb-0"
               >
-                <h3 className="mb-1 text-xl font-medium text-foreground">
-                  {job.title}{' '}
-                  <a
-                    href={job.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-green transition-colors hover:text-green/80"
-                  >
-                    @ {job.company}
-                  </a>
-                </h3>
-                <p className="mb-6 font-mono text-xs text-muted-foreground">{job.range}</p>
-                {job.location && (
-                  <p className="mb-4 font-mono text-xs text-muted-foreground/70">{job.location}</p>
-                )}
-                <div className="space-y-3">
-                  {job.content
-                    .trim()
-                    .split('\n')
-                    .filter((line) => line.trim().startsWith('-'))
-                    .map((line, idx) => (
-                      <div key={idx} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                        <span className="mt-1.5 text-green">▹</span>
-                        <span>{line.replace(/^-\s*/, '')}</span>
-                      </div>
-                    ))}
+                {/* Timeline dot */}
+                <div className="absolute left-0 top-[10px] h-[15px] w-[15px] rounded-full border-2 border-primary bg-background transition-colors group-hover:bg-primary" />
+
+                {/* Vertical stack: title, date, location */}
+                <div className="flex flex-col items-start">
+                  <h3 className="text-sm font-semibold text-foreground">
+                    {job.title}{' '}
+                    <a
+                      href={job.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary transition-colors hover:text-primary/80"
+                    >
+                      @ {job.company}
+                    </a>
+                  </h3>
+                  <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+                    {job.range}
+                  </p>
+                  {job.location && (
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {job.location}
+                    </p>
+                  )}
                 </div>
-              </div>
+
+                {/* Bullet points */}
+                {job.content && (
+                  <ul className="mt-3 space-y-1.5">
+                    {job.content
+                      .trim()
+                      .split('\n')
+                      .filter((line) => line.trim().startsWith('-'))
+                      .map((line, li) => (
+                        <li
+                          key={li}
+                          className="flex gap-2 text-sm text-muted-foreground"
+                        >
+                          <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" />
+                          {line.replace(/^-\s*/, '')}
+                        </li>
+                      ))}
+                  </ul>
+                )}
+              </motion.div>
             ))}
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

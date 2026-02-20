@@ -2,53 +2,55 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { Command } from 'cmdk';
-import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import {
   Search,
-  Home,
   User,
   Briefcase,
   FolderOpen,
-  BookOpen,
   Mail,
-  Sun,
-  Moon,
-  FileText,
   Clock,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function CommandPalette() {
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
+interface CommandPaletteProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const { theme, setTheme } = useTheme();
 
-  const toggle = useCallback(() => setOpen((o) => !o), []);
+  const scrollToSection = useCallback((id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+    onClose();
+  }, [onClose]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'Escape' && open) {
         e.preventDefault();
-        toggle();
-      }
-      if (e.key === 'Escape') {
-        setOpen(false);
+        onClose();
       }
     };
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [toggle]);
-
-  const run = (command: () => void) => {
-    setOpen(false);
-    command();
-  };
+  }, [open, onClose]);
 
   const itemClass = cn(
-    'flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm',
+    'flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-sm',
     'text-foreground transition-colors',
     'hover:bg-emerald-tint hover:text-primary',
     'aria-selected:bg-emerald-tint aria-selected:text-primary',
@@ -65,19 +67,20 @@ export function CommandPalette() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             className="fixed inset-0 z-[100] bg-background/70 backdrop-blur-md"
-            onClick={() => setOpen(false)}
+            onClick={onClose}
           />
 
-          {/* Palette — dead center */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed left-1/2 top-1/2 z-[101] w-full max-w-[560px] -translate-x-1/2 -translate-y-1/2 px-4"
-          >
+          {/* Palette — centered */}
+          <div className="fixed inset-0 z-[101] flex items-center justify-center px-4 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-[560px] pointer-events-auto"
+            >
             <Command
-              className="overflow-hidden rounded-xl border border-border bg-card shadow-2xl"
+              className="overflow-hidden rounded-3xl border border-border bg-card shadow-elevation"
             >
               <div className="flex items-center border-b border-border px-4">
                 <Search className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
@@ -86,8 +89,8 @@ export function CommandPalette() {
                   className="flex h-12 w-full bg-transparent py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground"
                 />
                 <button
-                  onClick={() => setOpen(false)}
-                  className="ml-2 rounded p-1 text-muted-foreground hover:text-foreground"
+                  onClick={onClose}
+                  className="ml-2 rounded-xl p-1 text-muted-foreground hover:text-foreground"
                 >
                   <X size={16} />
                 </button>
@@ -102,45 +105,20 @@ export function CommandPalette() {
                   heading="Navigation"
                   className="px-2 py-1.5 text-xs font-medium text-muted-foreground"
                 >
-                  <Command.Item onSelect={() => run(() => router.push('/'))} className={itemClass}>
-                    <Home size={16} /> Home
-                  </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/#about'))} className={itemClass}>
+                  <Command.Item onSelect={() => scrollToSection('about')} className={itemClass}>
                     <User size={16} /> About
                   </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/#experience'))} className={itemClass}>
+                  <Command.Item onSelect={() => scrollToSection('experience')} className={itemClass}>
                     <Briefcase size={16} /> Experience
                   </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/#projects'))} className={itemClass}>
+                  <Command.Item onSelect={() => scrollToSection('projects')} className={itemClass}>
                     <FolderOpen size={16} /> Projects
                   </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/blogs'))} className={itemClass}>
-                    <BookOpen size={16} /> Blog
-                  </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/resume'))} className={itemClass}>
-                    <FileText size={16} /> Resume
-                  </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/now'))} className={itemClass}>
+                  <Command.Item onSelect={() => scrollToSection('now')} className={itemClass}>
                     <Clock size={16} /> Now
                   </Command.Item>
-                  <Command.Item onSelect={() => run(() => router.push('/#contact'))} className={itemClass}>
+                  <Command.Item onSelect={() => scrollToSection('contact')} className={itemClass}>
                     <Mail size={16} /> Contact
-                  </Command.Item>
-                </Command.Group>
-
-                <Command.Separator className="my-1 h-px bg-border" />
-
-                <Command.Group
-                  heading="Theme"
-                  className="px-2 py-1.5 text-xs font-medium text-muted-foreground"
-                >
-                  <Command.Item onSelect={() => run(() => setTheme('dark'))} className={itemClass}>
-                    <Moon size={16} /> Dark Mode
-                    {theme === 'dark' && <span className="ml-auto text-xs text-primary">Active</span>}
-                  </Command.Item>
-                  <Command.Item onSelect={() => run(() => setTheme('light'))} className={itemClass}>
-                    <Sun size={16} /> Light Mode
-                    {theme === 'light' && <span className="ml-auto text-xs text-primary">Active</span>}
                   </Command.Item>
                 </Command.Group>
               </Command.List>
@@ -156,7 +134,8 @@ export function CommandPalette() {
                 </p>
               </div>
             </Command>
-          </motion.div>
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

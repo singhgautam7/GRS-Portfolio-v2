@@ -47,7 +47,7 @@ export function AboutSection() {
                 href={siteConfig.companyUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-green transition-colors hover:text-green/80"
+                className="text-primary transition-colors hover:text-primary/80"
               >
                 {siteConfig.company}
               </a>
@@ -64,7 +64,7 @@ export function AboutSection() {
 
             <ul className="grid grid-cols-2 gap-x-4 gap-y-2 font-mono text-xs sm:grid-cols-3">
               {technologies.map((tech) => (
-                <li key={tech} className="relative pl-5 text-muted-foreground before:absolute before:left-0 before:text-green before:content-['▹']">
+                <li key={tech} className="relative pl-5 text-muted-foreground before:absolute before:left-0 before:text-primary before:content-['▹']">
                   {tech}
                 </li>
               ))}
@@ -73,16 +73,16 @@ export function AboutSection() {
 
           <div className="relative mx-auto w-full max-w-[300px]">
             <div className="group relative">
-              <div className="relative z-10 overflow-hidden rounded bg-green/20">
-                <div className="aspect-square w-full bg-gradient-to-br from-green/10 via-green/5 to-transparent">
+              <div className="relative z-10 overflow-hidden rounded bg-primary/20">
+                <div className="aspect-square w-full bg-gradient-to-br from-primary/10 via-primary/5 to-transparent">
                   {/* Placeholder avatar - can be replaced with actual image */}
                   <div className="flex h-full w-full items-center justify-center">
-                    <span className="font-mono text-6xl text-green/40">GS</span>
+                    <span className="font-mono text-6xl text-primary/40">GS</span>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-green/10 transition-opacity group-hover:opacity-0" />
+                <div className="absolute inset-0 bg-primary/10 transition-opacity group-hover:opacity-0" />
               </div>
-              <div className="absolute -bottom-3 -right-3 -z-0 h-full w-full rounded border-2 border-green transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1" />
+              <div className="absolute -bottom-3 -right-3 -z-0 h-full w-full rounded border-2 border-primary transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1" />
             </div>
           </div>
         </div>

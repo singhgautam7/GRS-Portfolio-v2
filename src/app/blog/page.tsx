@@ -31,7 +31,7 @@ export default function BlogPage() {
               >
                 <Link href={`/blog/${post.slug}`} className="block">
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-4">
-                    <time className="shrink-0 font-mono text-xs text-green">
+                    <time className="shrink-0 font-mono text-xs text-primary">
                       {new Date(post.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -39,7 +39,7 @@ export default function BlogPage() {
                       })}
                     </time>
                     <div>
-                      <h2 className="text-xl font-semibold text-foreground transition-colors group-hover:text-green">
+                      <h2 className="text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
                         {post.title}
                       </h2>
                       {post.description && (

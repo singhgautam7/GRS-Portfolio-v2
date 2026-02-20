@@ -63,7 +63,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-[520px] pointer-events-auto rounded-xl border border-border bg-card p-6 shadow-2xl"
+              className="w-full max-w-[520px] pointer-events-auto rounded-3xl border border-border bg-card p-6 shadow-elevation"
               role="dialog"
               aria-modal="true"
               aria-labelledby="project-dialog-title"
@@ -147,7 +147,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-lg border border-border px-4 py-2 font-mono text-xs text-foreground transition-all hover:border-primary/40 hover:text-primary"
+                      className="flex items-center gap-2 rounded-xl bg-secondary px-4 py-2 font-mono text-xs text-foreground transition-all hover:bg-emerald-tint/50 hover:text-primary"
                     >
                       <Github size={14} />
                       GitHub Repo
@@ -158,7 +158,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                       href={project.external}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-lg border border-primary/30 bg-emerald-tint px-4 py-2 font-mono text-xs text-primary transition-all hover:border-primary/60"
+                      className="flex items-center gap-2 rounded-2xl bg-primary px-4 py-2 font-mono text-xs text-primary-foreground transition-all hover:opacity-90"
                     >
                       <ExternalLink size={14} />
                       View Live
