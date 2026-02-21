@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { Command } from 'cmdk';
 import {
   Search,
@@ -12,6 +13,7 @@ import {
   X,
   FileText,
   ExternalLink,
+  Calendar,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,6 +25,7 @@ interface CommandPaletteProps {
 }
 
 export function CommandPalette({ open, onClose }: CommandPaletteProps) {
+  const router = useRouter();
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -147,28 +150,18 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                       <Clock size={16} />
                       <span>Now</span>
                     </Command.Item>
-                    <Command.Item
-                      onSelect={() => {
-                        window.location.href = '/timeline';
-                        onClose();
-                      }}
-                      className={itemClass}
-                    >
-                      <Clock size={16} />
-                      <span>Timeline</span>
-                    </Command.Item>
                   </Command.Group>
 
                   <Command.Group heading="Actions" className="mt-2">
                     <Command.Item
                       onSelect={() => {
-                        window.open(siteConfig.resumeUrl, '_blank');
+                        router.push('/timeline');
                         onClose();
                       }}
                       className={itemClass}
                     >
-                      <FileText size={16} />
-                      <span>Download Resume</span>
+                      <Calendar size={16} />
+                      <span>View my Timeline</span>
                     </Command.Item>
                     <Command.Item
                       onSelect={() => {
@@ -179,6 +172,16 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                     >
                       <ExternalLink size={16} />
                       <span>Read Medium Blogs</span>
+                    </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        window.open(siteConfig.resumeUrl, '_blank');
+                        onClose();
+                      }}
+                      className={itemClass}
+                    >
+                      <FileText size={16} />
+                      <span>Download Resume</span>
                     </Command.Item>
                   </Command.Group>
                 </Command.List>
