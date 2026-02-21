@@ -5,6 +5,11 @@ company: 'HSBC'
 location: 'Bangalore, India'
 range: 'Sept 2024 - Apr 2025'
 url: 'https://www.hsbc.co.in/'
+timeline: true
+timeline_pointers:
+  - Validated and challenged financial models developed for Risk Management in the Retail domain
+  - Ensured the accuracy and reliability of financial models used in HSBC's Retail banking
+  - Provided guidance and training to interns on Python programming and financial modeling
 ---
 
 - Independently validating and challenging financial models developed for Risk Management in the Retail domain.

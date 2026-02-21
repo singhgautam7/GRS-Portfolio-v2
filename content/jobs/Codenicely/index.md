@@ -5,6 +5,11 @@ company: 'CodeNicely'
 location: 'Raipur(C.G.), India'
 range: 'Oct 2019 - Dec 2021'
 url: 'https://codenicely.in/'
+timeline: true
+timeline_pointers:
+  - Developed full-stack web applications and APIs from scratch based on client demands
+  - Spearheaded a team of 4 people to design and develop projects across different platforms
+  - Mentored new Django developers and conducted technical applicant interviews
 ---
 
 - Developed back-end from scratch on one of CodeNicely's biggest project.

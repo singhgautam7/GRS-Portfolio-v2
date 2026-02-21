@@ -5,6 +5,11 @@ company: 'Fractal'
 location: 'Bangalore, India'
 range: 'Jan 2023 - Sept 2024'
 url: 'https://fractal.ai/'
+timeline: true
+timeline_pointers:
+  - Developed and maintained backend APIs using Flask/Python for the P&G ComCen project
+  - Designed front-end dashboard components with React and Redux Toolkit
+  - Created scalable data transformations using Pandas DataFrame
 ---
 
 - Developed and maintained backend APIs using Flask/Python for ComCen (P&G) project.

@@ -5,6 +5,11 @@ company: 'Hashicorp | An IBM company'
 location: 'Bangalore, India'
 range: 'Apr 2025 - Present'
 url: 'https://www.hashicorp.com/'
+timeline: true
+timeline_pointers:
+  - Manage and maintain HVD clusters for high availability and reliability using Terraform and Kubernetes
+  - Monitor infrastructure health and incidents using Datadog
+  - Handle customer support tickets; troubleshoot and resolve cluster issues
 ---
 
 - Manage and maintain HVD clusters for high availability and reliability.

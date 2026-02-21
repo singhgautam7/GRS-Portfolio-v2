@@ -7,14 +7,16 @@ import { ExperienceSection } from '@/components/sections/experience';
 import { ProjectsTable } from '@/components/sections/projects-table';
 import { ContactSection } from '@/components/sections/contact';
 import { NowSection } from '@/components/sections/now-section';
+import { type NowContent } from '@/lib/timeline';
 import type { Job, Project } from '@/lib/content';
 
 interface HomePageClientProps {
   jobs: Job[];
   projects: Project[];
+  nowContent: NowContent | null;
 }
 
-export default function HomePageClient({ jobs, projects }: HomePageClientProps) {
+export default function HomePageClient({ jobs, projects, nowContent }: HomePageClientProps) {
   useEffect(() => {
     const observerCallback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
@@ -47,7 +49,7 @@ export default function HomePageClient({ jobs, projects }: HomePageClientProps) 
       <WhyMeSection />
       <ExperienceSection jobs={jobs} />
       <ProjectsTable projects={projects} />
-      <NowSection />
+      <NowSection data={nowContent} />
       <ContactSection />
     </main>
   );

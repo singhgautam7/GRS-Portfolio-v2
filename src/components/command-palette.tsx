@@ -147,6 +147,16 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                       <Clock size={16} />
                       <span>Now</span>
                     </Command.Item>
+                    <Command.Item
+                      onSelect={() => {
+                        window.location.href = '/timeline';
+                        onClose();
+                      }}
+                      className={itemClass}
+                    >
+                      <Clock size={16} />
+                      <span>Timeline</span>
+                    </Command.Item>
                   </Command.Group>
 
                   <Command.Group heading="Actions" className="mt-2">

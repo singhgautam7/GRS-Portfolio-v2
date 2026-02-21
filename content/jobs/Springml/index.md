@@ -5,6 +5,11 @@ company: 'SpringML'
 location: 'Hyderabad, India'
 range: 'Dec 2021 - Dec 2022'
 url: 'https://www.springml.com/'
+timeline: true
+timeline_pointers:
+  - Developed REST APIs on Flask and deployed them on Google Cloud Platform
+  - Used Infrastructure as Code (Terraform) to seamlessly manage cloud resources
+  - Utilized Cloud Run, Cloud Functions, Cloud SQL, and Secret Manager for large scale projects
 ---
 
 - Devoted time to work on GCP resources.

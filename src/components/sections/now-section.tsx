@@ -1,36 +1,29 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Briefcase, Code2, BookOpen, Coffee } from 'lucide-react';
+import { Briefcase, Code2, BookOpen, Coffee, Lightbulb, PenTool } from 'lucide-react';
 import { TechTag } from '@/components/ui/tech-tag';
+import type { NowContent } from '@/lib/timeline';
+import Link from 'next/link';
 
-const timelineData = [
-  {
-    category: 'Work',
-    icon: Briefcase,
-    text: 'Currently Senior Software Engineer at Hashicorp (IBM), focused on creating high-availability infrastructure deployments scaling globally.',
-    tags: ['Infrastructure', 'Kubernetes', 'Terraform'],
-  },
-  {
-    category: 'Building',
-    icon: Code2,
-    text: 'Experimenting with generative AI interactions, edge computing systems, and modern full-stack architectures for personal projects.',
-    tags: ['Next.js', 'LLMs', 'Golang'],
-  },
-  {
-    category: 'Learning',
-    icon: BookOpen,
-    text: 'Deep diving into local, high-performance RAG pipelines and understanding memory paradigms for intelligent agents in autonomous workflows.',
-  },
-  {
-    category: 'Reading',
-    icon: Coffee,
-    text: 'Exploring &quot;Designing Data-Intensive Applications&quot; (again) and recently finished &quot;Staff Engineer: Leadership beyond the management track&quot;.',
-  },
-];
+interface NowSectionProps {
+  data: NowContent | null;
+}
 
-export function NowSection() {
-  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const getIconForTitle = (title: string) => {
+  const t = title.toLowerCase();
+  if (t.includes('work')) return Briefcase;
+  if (t.includes('build')) return Code2;
+  if (t.includes('learn')) return BookOpen;
+  if (t.includes('read')) return Coffee;
+  if (t.includes('idea')) return Lightbulb;
+  if (t.includes('design')) return PenTool;
+  return Coffee; // fallback
+};
+
+export function NowSection({ data }: NowSectionProps) {
+  // If no data provided, render nothing or fallback gracefully.
+  if (!data) return null;
 
   return (
     <section id="now" className="py-section-sm">
@@ -41,24 +34,32 @@ export function NowSection() {
            viewport={{ once: true, margin: '-80px' }}
            transition={{ duration: 0.5 }}
         >
-          <div className="mb-10 flex flex-col items-start gap-2 sm:flex-row sm:items-end justify-between">
+          <div className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-end justify-between border-b border-border/50 pb-6">
             <div>
               <h2 className="section-heading text-foreground mb-1 mt-0">Now</h2>
               <p className="text-muted-foreground">What I&apos;m focused on right now</p>
+
+              <div className="text-xs font-mono text-muted-foreground/60 tracking-wider mt-2 sm:mt-1">
+                Last updated: {data.last_updated}
+              </div>
             </div>
-            <div className="text-xs font-mono text-muted-foreground/60 tracking-wider">
-              Last updated: {currentDate}
+
+            <div className="flex flex-col items-start sm:items-end">
+              <Link href="/timeline" className="group inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 hover:underline underline-offset-4 transition-all pr-2">
+                <span>View my full career timeline</span>
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
             </div>
           </div>
         </motion.div>
 
         <div className="relative border-l border-border/60 pl-6 ml-3 md:ml-4">
-          {timelineData.map((item, index) => {
-            const Icon = item.icon;
+          {data.sections.map((item, index) => {
+            const Icon = getIconForTitle(item.title);
 
             return (
               <motion.div
-                key={item.category}
+                key={item.title}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
@@ -77,12 +78,12 @@ export function NowSection() {
                 <div className="rounded-2xl border border-border/40 bg-card/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:bg-card hover:shadow-elevation sm:p-6">
                   <div className="mb-2 flex items-center gap-3">
                     <h3 className="text-base font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                      {item.category}
+                      {item.title}
                     </h3>
                   </div>
 
                   <p className="text-sm leading-relaxed text-muted-foreground mb-4">
-                    {item.text}
+                    {item.description}
                   </p>
 
                   {item.tags && item.tags.length > 0 && (

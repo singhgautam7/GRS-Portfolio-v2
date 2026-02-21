@@ -1,5 +1,5 @@
 ---
-date: '1'
+date: '2022-09-15'
 title: 'CLIA'
 github: 'https://github.com/singhgautam7/CLIA---Command-Line-Intelligent-Assistant'
 external: 'https://pypi.org/project/clia/'
