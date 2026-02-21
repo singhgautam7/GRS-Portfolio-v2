@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Command } from 'cmdk';
 import {
   Search,
@@ -26,6 +26,7 @@ interface CommandPaletteProps {
 
 export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -40,6 +41,12 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   }, [open]);
 
   const scrollToSection = useCallback((id: string) => {
+    if (pathname !== '/') {
+      router.push(`/#${id}`);
+      onClose();
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       const headerOffset = 80;
@@ -50,12 +57,12 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         top: offsetPosition,
         behavior: 'smooth',
       });
-      if (window.location.pathname !== `/${id}`) {
-        window.history.pushState(null, '', `/${id}`);
+      if (window.location.hash !== `#${id}`) {
+        window.history.pushState(null, '', `/#${id}`);
       }
     }
     onClose();
-  }, [onClose]);
+  }, [onClose, pathname, router]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -142,6 +149,10 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                       <FolderOpen size={16} />
                       <span>Projects</span>
                     </Command.Item>
+                    <Command.Item onSelect={() => scrollToSection('posts')} className={itemClass}>
+                      <FileText size={16} />
+                      <span>Posts</span>
+                    </Command.Item>
                     <Command.Item onSelect={() => scrollToSection('contact')} className={itemClass}>
                       <Mail size={16} />
                       <span>Contact</span>
@@ -163,16 +174,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                       <Calendar size={16} />
                       <span>View my Timeline</span>
                     </Command.Item>
-                    <Command.Item
-                      onSelect={() => {
-                        window.open('https://medium.com/@singhgautam7', '_blank');
-                        onClose();
-                      }}
-                      className={itemClass}
-                    >
-                      <ExternalLink size={16} />
-                      <span>Read Medium Blogs</span>
-                    </Command.Item>
+
                     <Command.Item
                       onSelect={() => {
                         window.open(siteConfig.resumeUrl, '_blank');

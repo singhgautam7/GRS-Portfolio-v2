@@ -1,10 +1,10 @@
-﻿# AI Book Reader — Deep Case Study
-
-
-## TLDR
-
-AI Book Reader is a privacy-first web application that transforms personal documents and web articles into audiobooks using multiple AI text-to-speech providers. Built entirely client-side, it supports offline reading, premium AI voices, audio caching, playback history, and an immersive reader experience without uploading files to any server.
-
+﻿---
+title: "AI Book Reader — Deep Case Study"
+date: "2026-02-10"
+tldr: "AI Book Reader is a privacy-first web application that transforms personal documents and web articles into audiobooks using multiple AI text-to-speech providers. Built entirely client-side, it supports offline reading, premium AI voices, audio caching, playback history, and an immersive reader experience without uploading files to any server."
+tags: ["AI", "TTS", "System Design"]
+timeline: true
+---
 
 ## Executive Summary
 
@@ -31,7 +31,7 @@ Traditional audiobook solutions suffer from:
 -   No support for web articles
 -   No offline capability
 -   Poor reading UX
-    
+
 
 ## Solution
 Create a unified AI reading platform that:
@@ -42,7 +42,7 @@ Create a unified AI reading platform that:
 -   Preserves structure and formatting
 -   Minimizes API usage via caching
 -   Tracks reading history
-    
+
 ## Key Features
 
 ### Multi-Source Input
@@ -50,7 +50,7 @@ Create a unified AI reading platform that:
 -   EPUB
 -   Web article links
 -   Testing mode sample text
-    
+
 
 ### Multi-Engine TTS Support
 | Provider | Provider | Use-case |
@@ -84,7 +84,7 @@ Tracks:
 -   Reader used
 -   Playback history
 -   Unique entries only
-    
+
 
 ### Reader UX Enhancements
 -   Translucent highlight for active chunk
@@ -274,7 +274,7 @@ settingsSnapshot
 -   Maximum privacy
 -   Lower infrastructure cost
 -   Simpler deployment
-    
+
 **Disadvantages**
 -   No cross-device sync
 -   Browser storage limits
@@ -293,7 +293,7 @@ Necessary for:
 -   No server transmission
 -   No tracking
 -   No telemetry
-    
+
 
 ## Future Improvements
 
@@ -306,7 +306,7 @@ Potential roadmap:
 -   Mobile PWA mode
 -   Mutliple voices in a story
 -   Document OCR support
-    
+
 
 ## Why This Project Stands Out
 
@@ -319,7 +319,7 @@ It demonstrates:
 -   Privacy-centric architecture
 -   Multi-provider abstraction
 -   Product-level decision making
-    
+
 
 ## Deployment Model
 Yet to be deployed, but here is an example:

@@ -4,8 +4,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './navbar';
 import { CommandPalette } from './command-palette';
 import { Footer } from './footer';
-import { SocialSidebar } from './social-sidebar';
-import { EmailSidebar } from './email-sidebar';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
@@ -27,8 +25,6 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar onJumpToClick={openPalette} />
-      <SocialSidebar />
-      <EmailSidebar />
       <div id="content">{children}</div>
       <Footer />
       <CommandPalette open={commandPaletteOpen} onClose={closePalette} />

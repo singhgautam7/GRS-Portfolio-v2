@@ -3,8 +3,9 @@ import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { TimelineEntry } from '@/lib/timeline';
 import { TechTag } from '@/components/ui/tech-tag';
-import { Briefcase, Code, Award, FileText, ArrowUpRight, Github } from 'lucide-react';
+import { Briefcase, Code, Award, FileText, ArrowUpRight, Github, Newspaper } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface TimelineEntryNodeProps {
   entry: TimelineEntry;
@@ -38,6 +39,14 @@ export const TimelineEntryNode = memo(function TimelineEntryNode({ entry, index 
           bgHint: 'bg-amber-500/10 border-amber-500/20',
           ring: 'group-hover:ring-amber-500/20',
           marker: 'group-hover:bg-amber-500'
+        };
+      case 'post':
+        return {
+          Icon: Newspaper,
+          accent: 'text-violet-500',
+          bgHint: 'bg-violet-500/10 border-violet-500/20',
+          ring: 'group-hover:ring-violet-500/20',
+          marker: 'group-hover:bg-violet-500'
         };
       default:
         return {
@@ -112,12 +121,25 @@ export const TimelineEntryNode = memo(function TimelineEntryNode({ entry, index 
               <p className="text-sm font-medium text-muted-foreground mt-1">
                 Personal Project
               </p>
+            ) : entry.type === 'post' ? (
+              <p className="text-sm font-medium text-muted-foreground mt-1">
+                Case Study
+              </p>
             ) : null}
           </div>
 
           {/* Action Links */}
-          {(entry.githubUrl || entry.liveUrl || entry.caseStudyUrl) && (
+          {(entry.githubUrl || entry.liveUrl || entry.caseStudyUrl || entry.type === 'post') && (
             <div className="flex items-center gap-2 mt-2 sm:mt-0">
+              {entry.type === 'post' && (
+                <Link
+                  href={`/posts/${entry.id}`}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-violet-500/30 bg-violet-500/10 text-violet-500 text-xs font-medium hover:bg-violet-500/20 hover:border-violet-500/50 transition-all duration-200 btn-press"
+                >
+                  <span>Read Post</span>
+                  <ArrowUpRight size={14} />
+                </Link>
+              )}
               {entry.githubUrl && (
                 <a
                   href={entry.githubUrl}

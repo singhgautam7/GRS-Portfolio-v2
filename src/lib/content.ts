@@ -33,8 +33,10 @@ export const ProjectSchema = z.object({
 export const PostSchema = z.object({
     title: z.string(),
     description: z.string().optional(),
+    tldr: z.string().optional(),
     date: z.coerce.string(),
     draft: z.boolean().optional().default(false),
+    timeline: z.boolean().optional().default(true),
     slug: z.string().optional(),
     tags: z.array(z.string()).default([]),
 });

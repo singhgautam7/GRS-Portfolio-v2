@@ -170,6 +170,32 @@ body {
   @apply max-w-none;
 }
 
+/* Rehype Pretty Code specific overrides */
+figure[data-rehype-pretty-code-figure] {
+  @apply m-0;
+}
+
+.prose pre {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.prose pre > code {
+  @apply grid min-w-full;
+}
+
+.prose pre > code > [data-line] {
+  @apply border-l-[3px] border-transparent transition-colors;
+}
+
+.prose pre > code > [data-highlighted-line] {
+  @apply bg-white/[0.05] border-primary;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-accent pl-4 italic text-muted-foreground bg-transparent;
+}
+
 .dark .prose {
   --tw-prose-body: #9CA3AF;
   --tw-prose-headings: #EDEDED;
@@ -178,10 +204,10 @@ body {
   --tw-prose-code: #EDEDED;
   --tw-prose-pre-bg: #0a0a0a;
   --tw-prose-pre-code: #EDEDED;
-  --tw-prose-quotes: #9CA3AF;
-  --tw-prose-quote-borders: #00FFB3;
+  --tw-prose-quotes: hsl(var(--muted-foreground));
+  --tw-prose-quote-borders: hsl(var(--accent));
   --tw-prose-counters: #9CA3AF;
-  --tw-prose-bullets: #00FFB3;
+  --tw-prose-bullets: hsl(var(--accent));
   --tw-prose-hr: #1a1a1a;
   --tw-prose-th-borders: #1a1a1a;
   --tw-prose-td-borders: #1a1a1a;

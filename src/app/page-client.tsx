@@ -7,22 +7,24 @@ import { ExperienceSection } from '@/components/sections/experience';
 import { ProjectsTable } from '@/components/sections/projects-table';
 import { ContactSection } from '@/components/sections/contact';
 import { NowSection } from '@/components/sections/now-section';
+import { PostsSection } from '@/components/sections/posts-section';
 import { type NowContent } from '@/lib/timeline';
-import type { Job, Project } from '@/lib/content';
+import type { Job, Project, Post } from '@/lib/content';
 
 interface HomePageClientProps {
   jobs: Job[];
   projects: Project[];
+  posts: Post[];
   nowContent: NowContent | null;
 }
 
-export default function HomePageClient({ jobs, projects, nowContent }: HomePageClientProps) {
+export default function HomePageClient({ jobs, projects, posts, nowContent }: HomePageClientProps) {
   useEffect(() => {
     const observerCallback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.target.id) {
-          const newUrl = `/${entry.target.id}`;
-          if (window.location.pathname !== newUrl) {
+          const newUrl = `/#${entry.target.id}`;
+          if (window.location.hash !== newUrl && window.location.pathname === '/') {
             window.history.replaceState(null, '', newUrl);
           }
         }
@@ -49,6 +51,7 @@ export default function HomePageClient({ jobs, projects, nowContent }: HomePageC
       <WhyMeSection />
       <ExperienceSection jobs={jobs} />
       <ProjectsTable projects={projects} />
+      <PostsSection posts={posts} />
       <NowSection data={nowContent} />
       <ContactSection />
     </main>

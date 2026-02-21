@@ -54,11 +54,11 @@ export const siteConfig = {
     ],
 
     navLinks: [
-        { name: 'About', url: '/about' },
-        { name: 'Experience', url: '/experience' },
-        { name: 'Projects', url: '/projects' },
-        { name: 'Contact', url: '/contact' },
-        { name: 'Blog', url: '/blogs' },
+        { name: 'About', url: '/#about' },
+        { name: 'Experience', url: '/#experience' },
+        { name: 'Projects', url: '/#projects' },
+        { name: 'Blog', url: '/#posts' },
+        { name: 'Contact', url: '/#contact' },
     ],
 
     heroChips: ['Python', 'Go', 'Cloud', 'Systems', 'APIs', 'Infrastructure'],
