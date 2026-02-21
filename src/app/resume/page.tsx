@@ -1,6 +1,6 @@
 import { siteConfig } from '@/lib/config';
 import { getJobs } from '@/lib/content';
-import { Mail, MapPin, ExternalLink, Download } from 'lucide-react';
+import { Mail, MapPin, Download } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

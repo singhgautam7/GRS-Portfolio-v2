@@ -4,10 +4,11 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Github, ExternalLink, X } from 'lucide-react';
 import type { Project } from '@/lib/content';
+import { TechTag } from '@/components/ui/tech-tag';
 
 // ------- Favorites Logic -------
 const STORAGE_KEY = 'grs-portfolio-favorites';
-const DEFAULT_FAVORITES = ['Clia', 'SickDict', 'HealthPotli'];
+const DEFAULT_FAVORITES = ['ai-reader', 'sickdict', 'healthpotli', 'clia'];
 
 function loadFavorites(): Set<string> {
   if (typeof window === 'undefined') return new Set(DEFAULT_FAVORITES);
@@ -128,12 +129,9 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-md border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-foreground/80"
-                      >
+                      <TechTag key={t}>
                         {t}
-                      </span>
+                      </TechTag>
                     ))}
                   </div>
                 </div>
@@ -147,7 +145,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-xl bg-secondary px-4 py-2 font-mono text-xs text-foreground transition-all hover:bg-emerald-tint/50 hover:text-primary"
+                      className="flex items-center gap-2 rounded-xl border border-primary/30 bg-card px-5 py-2.5 font-mono text-xs font-medium text-primary transition-all duration-200 hover:border-primary/50 hover:bg-emerald-tint/30 hover:shadow-elevation-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
                     >
                       <Github size={14} />
                       GitHub Repo
@@ -158,7 +156,8 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                       href={project.external}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-2xl bg-primary px-4 py-2 font-mono text-xs text-primary-foreground transition-all hover:opacity-90"
+                      className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-mono text-xs font-medium text-primary-foreground shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-elevation-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      style={{ color: 'hsl(var(--primary-foreground))' }}
                     >
                       <ExternalLink size={14} />
                       View Live
@@ -275,7 +274,7 @@ export function ProjectsTable({ projects }: ProjectsTableProps) {
                     <td className="py-3.5 pl-2 pr-1">
                       <button
                         onClick={(e) => toggleFavorite(e, project.slug)}
-                        className="rounded p-1 transition-colors hover:bg-secondary"
+                        className="rounded-xl p-1.5 transition-colors duration-200 hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary/50"
                         aria-label={isFav ? `Remove ${project.title} from favorites` : `Add ${project.title} to favorites`}
                       >
                         <Star
@@ -308,12 +307,9 @@ export function ProjectsTable({ projects }: ProjectsTableProps) {
                     <td className="hidden py-3.5 pr-4 lg:table-cell">
                       <div className="flex flex-wrap gap-1">
                         {project.tech.slice(0, 4).map((t) => (
-                          <span
-                            key={t}
-                            className="rounded bg-secondary px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
-                          >
+                          <TechTag key={t}>
                             {t}
-                          </span>
+                          </TechTag>
                         ))}
                       </div>
                     </td>

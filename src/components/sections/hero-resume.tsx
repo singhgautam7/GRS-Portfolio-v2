@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Mail, MapPin } from 'lucide-react';
 import { siteConfig } from '@/lib/config';
+import { TechTag } from '@/components/ui/tech-tag';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -74,16 +75,13 @@ export function HeroResumeSection() {
             {Object.entries(siteConfig.skills).map(([category, skills]) => (
               <div key={category}>
                 <p className="mb-3 font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                  {category}
+                  {category === 'devops_cloud' ? 'DevOps / Cloud' : category}
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-full border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-foreground/80 transition-colors hover:border-primary/40 hover:text-primary"
-                    >
+                    <TechTag key={skill}>
                       {skill}
-                    </span>
+                    </TechTag>
                   ))}
                 </div>
               </div>

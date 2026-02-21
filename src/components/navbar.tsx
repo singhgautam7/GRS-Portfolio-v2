@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Download } from 'lucide-react';
 import { siteConfig } from '@/lib/config';
@@ -19,7 +18,6 @@ export function Navbar({ onJumpToClick }: NavbarProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const pathname = usePathname();
 
   const updateScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -65,7 +63,7 @@ export function Navbar({ onJumpToClick }: NavbarProps) {
           {/* Logo */}
           <Link href="/" className="group relative z-10">
             <span className="font-mono text-lg font-bold text-primary transition-opacity hover:opacity-80">
-              GS
+              GRS
             </span>
           </Link>
 
@@ -76,7 +74,7 @@ export function Navbar({ onJumpToClick }: NavbarProps) {
               href={siteConfig.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-2xl bg-primary px-4 py-2 font-mono text-xs transition-all hover:opacity-90"
+              className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-mono text-xs font-medium shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-elevation-md focus:outline-none focus:ring-2 focus:ring-primary/50"
               style={{ color: 'hsl(var(--primary-foreground))' }}
             >
               <Download size={14} />

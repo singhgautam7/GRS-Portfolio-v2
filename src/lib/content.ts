@@ -28,14 +28,7 @@ export const ProjectSchema = z.object({
     type: z.string().optional(),
 });
 
-export const FeaturedSchema = z.object({
-    date: z.coerce.string(),
-    title: z.string(),
-    cover: z.string().optional(),
-    github: z.string().optional(),
-    external: z.string().optional(),
-    tech: z.array(z.string()).default([]),
-});
+
 
 export const PostSchema = z.object({
     title: z.string(),
@@ -48,7 +41,7 @@ export const PostSchema = z.object({
 
 export type Job = z.infer<typeof JobSchema> & { content: string; slug: string };
 export type Project = z.infer<typeof ProjectSchema> & { content: string; slug: string };
-export type Featured = z.infer<typeof FeaturedSchema> & { content: string; slug: string };
+
 export type Post = z.infer<typeof PostSchema> & { content: string; slug: string; readingTime: string };
 
 function getFilesRecursively(dir: string): string[] {
@@ -112,15 +105,7 @@ export function getProjects(): Project[] {
     return projects as Project[];
 }
 
-export function getFeatured(): Featured[] {
-    const dir = path.join(contentDirectory, 'featured');
-    const files = getFilesRecursively(dir);
-    const featured = files
-        .map((f) => parseFile(f, FeaturedSchema))
-        .filter((f): f is NonNullable<typeof f> => f !== null)
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    return featured as Featured[];
-}
+
 
 export function getPosts(): Post[] {
     const dir = path.join(contentDirectory, 'posts');
@@ -130,7 +115,7 @@ export function getPosts(): Post[] {
             const parsed = parseFile(f, PostSchema);
             if (!parsed) return null;
             // Use frontmatter slug if provided, otherwise use the file-derived slug
-            const finalSlug = (parsed as any).slug || parsed.slug;
+            const finalSlug = (parsed as Record<string, unknown>).slug || parsed.slug;
             return {
                 ...parsed,
                 readingTime: estimateReadingTime(parsed.content),
@@ -152,13 +137,13 @@ export function getAllContent() {
     return {
         jobs: getJobs(),
         projects: getProjects(),
-        featured: getFeatured(),
+
         posts: getPosts(),
     };
 }
 
 export function getSearchIndex() {
-    const { jobs, projects, featured, posts } = getAllContent();
+    const { jobs, projects, posts } = getAllContent();
     return [
         ...jobs.map((j) => ({
             type: 'job' as const,
@@ -176,14 +161,7 @@ export function getSearchIndex() {
             slug: p.slug,
             tags: p.tech,
         })),
-        ...featured.map((f) => ({
-            type: 'featured' as const,
-            title: f.title,
-            company: '',
-            content: f.content,
-            slug: f.slug,
-            tags: f.tech,
-        })),
+
         ...posts.map((p) => ({
             type: 'post' as const,
             title: p.title,

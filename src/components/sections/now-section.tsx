@@ -1,89 +1,102 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { siteConfig } from '@/lib/config';
+import { Briefcase, Code2, BookOpen, Coffee } from 'lucide-react';
+import { TechTag } from '@/components/ui/tech-tag';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-};
+const timelineData = [
+  {
+    category: 'Work',
+    icon: Briefcase,
+    text: 'Currently Senior Software Engineer at Hashicorp (IBM), focused on creating high-availability infrastructure deployments scaling globally.',
+    tags: ['Infrastructure', 'Kubernetes', 'Terraform'],
+  },
+  {
+    category: 'Building',
+    icon: Code2,
+    text: 'Experimenting with generative AI interactions, edge computing systems, and modern full-stack architectures for personal projects.',
+    tags: ['Next.js', 'LLMs', 'Golang'],
+  },
+  {
+    category: 'Learning',
+    icon: BookOpen,
+    text: 'Deep diving into local, high-performance RAG pipelines and understanding memory paradigms for intelligent agents in autonomous workflows.',
+  },
+  {
+    category: 'Reading',
+    icon: Coffee,
+    text: 'Exploring &quot;Designing Data-Intensive Applications&quot; (again) and recently finished &quot;Staff Engineer: Leadership beyond the management track&quot;.',
+  },
+];
 
 export function NowSection() {
+  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
   return (
     <section id="now" className="py-section-sm">
       <div className="mx-auto max-w-content px-6">
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, margin: '-80px' }}
+           transition={{ duration: 0.5 }}
         >
-          <h2 className="section-heading text-foreground">Now</h2>
-          <p className="mb-8 text-sm text-muted-foreground">
-            Last updated: February 2026 ·{' '}
-            <a
-              href="https://nownownow.com/about"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary transition-colors hover:text-primary/80"
-            >
-              What is a &quot;now&quot; page?
-            </a>
-          </p>
-
-          <div className="space-y-8">
-            {[
-              {
-                title: 'Work',
-                content: (
-                  <>
-                    Currently working as an {siteConfig.role} at{' '}
-                    <a
-                      href={siteConfig.companyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary transition-colors hover:text-primary/80"
-                    >
-                      {siteConfig.company}
-                    </a>
-                    , managing and maintaining infrastructure for high availability and reliability.
-                    Focused on automating operations with Terraform and Kubernetes.
-                  </>
-                ),
-              },
-              {
-                title: 'Building',
-                content:
-                  'Rebuilding my personal portfolio from the ground up with Next.js, TypeScript, and Tailwind CSS. Exploring modern web development patterns and product-grade UX.',
-              },
-              {
-                title: 'Learning',
-                content:
-                  'Diving deeper into cloud-native architecture, distributed systems, and exploring AI/ML integration in web applications. Currently interested in local LLMs and browser-based AI.',
-              },
-              {
-                title: 'Reading',
-                content:
-                  'Exploring system design patterns, clean architecture principles, and keeping up with the latest in Python and web technologies.',
-              },
-            ].map((section, i) => (
-              <motion.div
-                key={section.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
-                className="rounded-2xl border border-border bg-card p-6 shadow-elevation-sm"
-              >
-                <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  {section.title}
-                </h3>
-                <p className="leading-relaxed text-muted-foreground">{section.content}</p>
-              </motion.div>
-            ))}
+          <div className="mb-10 flex flex-col items-start gap-2 sm:flex-row sm:items-end justify-between">
+            <div>
+              <h2 className="section-heading text-foreground mb-1 mt-0">Now</h2>
+              <p className="text-muted-foreground">What I&apos;m focused on right now</p>
+            </div>
+            <div className="text-xs font-mono text-muted-foreground/60 tracking-wider">
+              Last updated: {currentDate}
+            </div>
           </div>
         </motion.div>
+
+        <div className="relative border-l border-border/60 pl-6 ml-3 md:ml-4">
+          {timelineData.map((item, index) => {
+            const Icon = item.icon;
+
+            return (
+              <motion.div
+                key={item.category}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="group relative mb-12 last:mb-0"
+              >
+                {/* Timeline Dot/Icon */}
+                <div className="absolute -left-[38px] top-1">
+                  <div className="relative flex h-7 w-7 items-center justify-center rounded-full border border-border bg-card shadow-sm transition-colors duration-300 group-hover:border-primary/50 group-hover:bg-emerald-tint group-hover:shadow-[0_0_12px_rgba(var(--primary),0.1)]">
+                    <Icon size={12} className="text-muted-foreground transition-colors group-hover:text-primary" />
+                    <div className="absolute inset-0 rounded-full bg-primary/20 opacity-0 blur-[6px] transition-opacity duration-300 group-hover:opacity-100" />
+                  </div>
+                </div>
+
+                {/* Content Card */}
+                <div className="rounded-2xl border border-border/40 bg-card/40 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 hover:bg-card hover:shadow-elevation sm:p-6">
+                  <div className="mb-2 flex items-center gap-3">
+                    <h3 className="text-base font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                      {item.category}
+                    </h3>
+                  </div>
+
+                  <p className="text-sm leading-relaxed text-muted-foreground mb-4">
+                    {item.text}
+                  </p>
+
+                  {item.tags && item.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {item.tags.map(tag => (
+                        <TechTag key={tag}>{tag}</TechTag>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

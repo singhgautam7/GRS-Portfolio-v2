@@ -23,7 +23,8 @@ export function ContactSection() {
           </p>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="mt-8 inline-block rounded-2xl bg-primary px-8 py-3 font-mono text-sm text-primary-foreground transition-all hover:opacity-90"
+            className="mt-8 inline-block rounded-xl bg-primary px-8 py-3 font-mono text-sm font-medium text-primary-foreground shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-elevation-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+            style={{ color: 'hsl(var(--primary-foreground))' }}
           >
             Say Hello
           </a>

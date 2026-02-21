@@ -1,6 +1,14 @@
+const startYear = 2019;
+const startMonth = 0; // January
+const currentDate = new Date();
+const diffInMonths = (currentDate.getFullYear() - startYear) * 12 + currentDate.getMonth() - startMonth;
+const rawYears = diffInMonths / 12;
+// Round to nearest 0.5
+export const YEARS_OF_EXPERIENCE = Math.round(rawYears * 2) / 2;
+
 export const siteConfig = {
     name: 'Gautam Singh',
-    title: "Gautam Singh — Engineer II",
+    title: "Gautam says Hello 👋",
     description:
         'Gautam Singh is a backend & infrastructure engineer building scalable systems, cloud-native architectures, and developer-focused tooling.',
     siteUrl: 'https://www.singhgautam.com',
@@ -12,7 +20,7 @@ export const siteConfig = {
     location: 'Bangalore, India',
     bio: 'Building scalable systems, cloud-native architectures, and developer-focused tooling.',
     summary:
-        "I'm a software engineer with 7+ years of experience specializing in backend development, cloud infrastructure, and building scalable systems. Currently at Hashicorp (IBM), I manage and maintain HVD clusters for high availability, automate operations with Terraform and Kubernetes, and build developer tooling that drives efficiency across teams.",
+        `I'm a software engineer with ${YEARS_OF_EXPERIENCE}+ years of experience specializing in backend development, cloud infrastructure, and building scalable systems. Currently at Hashicorp (IBM), I manage and maintain HVD clusters for high availability, automate operations with Terraform and Kubernetes, and build developer tooling that drives efficiency across teams.`,
     resumeUrl:
         'https://github.com/singhgautam7/singhgautam7/raw/main/assets/GRS_resume.docx',
     githubUsername: 'singhgautam7',
@@ -46,20 +54,20 @@ export const siteConfig = {
     ],
 
     navLinks: [
-        { name: 'About', url: '/#about' },
-        { name: 'Experience', url: '/#experience' },
-        { name: 'Projects', url: '/#projects' },
-        { name: 'Contact', url: '/#contact' },
+        { name: 'About', url: '/about' },
+        { name: 'Experience', url: '/experience' },
+        { name: 'Projects', url: '/projects' },
+        { name: 'Contact', url: '/contact' },
         { name: 'Blog', url: '/blogs' },
     ],
 
     heroChips: ['Python', 'Go', 'Cloud', 'Systems', 'APIs', 'Infrastructure'],
 
     skills: {
-        languages: ['Python', 'TypeScript', 'JavaScript', 'Go', 'SQL'],
-        frameworks: ['Django', 'Flask', 'React', 'Next.js', 'FastAPI'],
-        cloud: ['GCP', 'AWS', 'Terraform', 'Kubernetes', 'Docker'],
-        tools: ['Git', 'CI/CD', 'Datadog', 'PostgreSQL', 'Redis'],
+        backend: ['Django', 'Flask', 'Go (Golang)', 'Python'],
+        frontend: ['Next.js', 'React', 'Redux Toolkit'],
+        devops_cloud: ['AWS', 'Docker', 'GCP', 'Kubernetes', 'Terraform'],
+        databases: ['Firestore', 'MongoDB', 'Redis', 'SQL'],
     },
 } as const;
 

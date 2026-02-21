@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/lib/config';
 import type { Job } from '@/lib/content';
+import { TechTag } from '@/components/ui/tech-tag';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -52,12 +53,9 @@ export function ResumeOverview({ jobs }: ResumeOverviewProps) {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {items.map((skill) => (
-                      <span
-                        key={skill}
-                        className="rounded-md border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-foreground/80 transition-colors hover:border-primary/40 hover:text-primary"
-                      >
+                      <TechTag key={skill}>
                         {skill}
-                      </span>
+                      </TechTag>
                     ))}
                   </div>
                 </div>

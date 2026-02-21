@@ -14,6 +14,34 @@ const nextConfig: NextConfig = {
             },
         ],
     },
+    async rewrites() {
+        return [
+            {
+                source: '/about',
+                destination: '/',
+            },
+            {
+                source: '/experience',
+                destination: '/',
+            },
+            {
+                source: '/projects',
+                destination: '/',
+            },
+            {
+                source: '/now',
+                destination: '/',
+            },
+            {
+                source: '/contact',
+                destination: '/',
+            },
+            {
+                source: '/why-me',
+                destination: '/',
+            },
+        ];
+    },
 };
 
 export default nextConfig;

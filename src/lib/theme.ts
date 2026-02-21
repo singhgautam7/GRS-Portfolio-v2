@@ -7,7 +7,18 @@ export interface AccentPalette {
   rgb: string; // RGB for direct use
   tint: string; // Tint color for backgrounds (light mode)
   glow: string; // Glow color
-  surfaceTint: string; // Surface tint for dark mode background
+
+  // Light Mode Surfaces
+  lightSurface: string;
+  lightSurfaceVariant: string;
+  lightBorder: string;
+  lightMuted: string;
+
+  // Dark Mode Surfaces
+  darkSurface: string;
+  darkSurfaceVariant: string;
+  darkBorder: string;
+  darkMuted: string;
 }
 
 export const accentPalettes: Record<AccentColor, AccentPalette> = {
@@ -17,15 +28,29 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     rgb: '76, 139, 245',
     tint: 'rgba(76, 139, 245, 0.08)',
     glow: 'rgba(76, 139, 245, 0.15)',
-    surfaceTint: '232 240 254', // #E8F0FE
+    lightSurface: '228 100% 98%', // #F5F8FF
+    lightSurfaceVariant: '224 100% 96%', // #EEF3FF
+    lightBorder: '214 30% 88%',
+    lightMuted: '214 20% 45%',
+    darkSurface: '214 50% 8%', // Very dark blue
+    darkSurfaceVariant: '214 40% 12%',
+    darkBorder: '214 30% 20%',
+    darkMuted: '214 25% 45%',
   },
   'neo-mint': {
     name: 'neo-mint',
-    hsl: '160 100% 45%', // #00E5A8
-    rgb: '0, 229, 168',
-    tint: 'rgba(0, 229, 168, 0.08)',
-    glow: 'rgba(0, 229, 168, 0.15)',
-    surfaceTint: '232 252 245', // #E8FCF5
+    hsl: '142 71% 45%', // #22C55E (Softer Emerald)
+    rgb: '34, 197, 94',
+    tint: 'rgba(34, 197, 94, 0.08)',
+    glow: 'rgba(34, 197, 94, 0.15)',
+    lightSurface: '146 60% 97%', // #F4FBF7
+    lightSurfaceVariant: '145 60% 95%', // #ECF7F1
+    lightBorder: '142 30% 88%',
+    lightMuted: '142 20% 45%',
+    darkSurface: '142 50% 6%', // Very dark green
+    darkSurfaceVariant: '142 40% 10%',
+    darkBorder: '142 30% 18%',
+    darkMuted: '142 25% 42%',
   },
   'deep-indigo': {
     name: 'deep-indigo',
@@ -33,7 +58,14 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     rgb: '124, 77, 255',
     tint: 'rgba(124, 77, 255, 0.08)',
     glow: 'rgba(124, 77, 255, 0.15)',
-    surfaceTint: '242 238 255', // #F2EEFF
+    lightSurface: '258 100% 98%', // #F7F4FF
+    lightSurfaceVariant: '258 100% 96%', // #F1ECFF
+    lightBorder: '258 30% 88%',
+    lightMuted: '258 20% 45%',
+    darkSurface: '258 50% 8%', // Very dark purple
+    darkSurfaceVariant: '258 40% 12%',
+    darkBorder: '258 30% 20%',
+    darkMuted: '258 25% 45%',
   },
   'cyan-tech': {
     name: 'cyan-tech',
@@ -41,7 +73,14 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     rgb: '0, 184, 212',
     tint: 'rgba(0, 184, 212, 0.08)',
     glow: 'rgba(0, 184, 212, 0.15)',
-    surfaceTint: '230 248 252', // #E6F8FC
+    lightSurface: '188 80% 97%', // #E6F8FC
+    lightSurfaceVariant: '188 80% 95%',
+    lightBorder: '188 30% 88%',
+    lightMuted: '188 20% 45%',
+    darkSurface: '188 50% 7%', // Very dark cyan
+    darkSurfaceVariant: '188 40% 11%',
+    darkBorder: '188 30% 19%',
+    darkMuted: '188 25% 44%',
   },
   'warm-coral': {
     name: 'warm-coral',
@@ -49,7 +88,14 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     rgb: '255, 107, 107',
     tint: 'rgba(255, 107, 107, 0.08)',
     glow: 'rgba(255, 107, 107, 0.15)',
-    surfaceTint: '255 245 245', // #FFF5F5
+    lightSurface: '0 100% 98%', // #FFF5F5
+    lightSurfaceVariant: '0 100% 96%', // #FFECEC
+    lightBorder: '0 30% 88%',
+    lightMuted: '0 20% 45%',
+    darkSurface: '0 50% 8%', // Very dark red
+    darkSurfaceVariant: '0 40% 12%',
+    darkBorder: '0 30% 20%',
+    darkMuted: '0 25% 45%',
   },
 };
 
@@ -61,7 +107,7 @@ export function getStoredAccent(): AccentColor {
   if (typeof window === 'undefined') return 'google-blue';
   const stored = localStorage.getItem(ACCENT_STORAGE_KEY);
   if (!stored) return 'google-blue';
-  
+
   // Migrate old accent names to new ones
   const migrationMap: Record<string, AccentColor> = {
     'emerald': 'neo-mint',
@@ -70,14 +116,14 @@ export function getStoredAccent(): AccentColor {
     'orange': 'warm-coral',
     'rose': 'warm-coral',
   };
-  
+
   const migrated = migrationMap[stored] || stored;
-  
+
   // Validate that the accent exists in the palette
   if (accentPalettes[migrated as AccentColor]) {
     return migrated as AccentColor;
   }
-  
+
   return 'google-blue';
 }
 
@@ -100,41 +146,41 @@ export function setStoredPitchBlack(enabled: boolean) {
 
 export function applyAccentColor(accent: AccentColor) {
   if (typeof document === 'undefined') return;
-  
+
   // Validate accent exists, fallback to default if not
   const palette = accentPalettes[accent] || accentPalettes['google-blue'];
-  
+
   if (!palette) {
     console.warn(`Invalid accent color: ${accent}, using default`);
     return;
   }
-  
+
   const root = document.documentElement;
   root.style.setProperty('--primary', palette.hsl);
   root.style.setProperty('--accent', palette.hsl);
   root.style.setProperty('--ring', palette.hsl);
   root.style.setProperty('--emerald-tint', palette.tint);
   root.style.setProperty('--emerald-glow', palette.glow);
-  root.style.setProperty('--surface-tint', palette.surfaceTint);
 }
 
-export function applyPitchBlack(enabled: boolean, isDark: boolean, accent: AccentColor = 'google-blue') {
+export function applyThemeMode(isDark: boolean, pitchBlack: boolean, accent: AccentColor = 'google-blue') {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  
-  // Only apply pitch black in dark mode
+  const palette = accentPalettes[accent] || accentPalettes['google-blue'];
+
   if (!isDark) {
-    // Reset to light mode defaults (remove any dark mode overrides)
-    root.style.removeProperty('--background');
-    root.style.removeProperty('--card');
-    root.style.removeProperty('--popover');
-    root.style.removeProperty('--secondary');
-    root.style.removeProperty('--muted');
-    root.style.removeProperty('--border');
+    // Light Mode with Material You tinted surfaces
+    root.style.setProperty('--background', palette.lightSurface);
+    root.style.setProperty('--card', palette.lightSurfaceVariant);
+    root.style.setProperty('--popover', palette.lightSurfaceVariant);
+    root.style.setProperty('--secondary', palette.lightSurfaceVariant);
+    root.style.setProperty('--muted', palette.lightSurfaceVariant);
+    root.style.setProperty('--border', palette.lightBorder);
+    root.style.setProperty('--muted-foreground', palette.lightMuted);
     return;
   }
-  
-  if (enabled) {
+
+  if (pitchBlack) {
     // Pure black (pitch black mode)
     root.style.setProperty('--background', '0 0% 0%');
     root.style.setProperty('--card', '0 0% 2%');
@@ -142,15 +188,16 @@ export function applyPitchBlack(enabled: boolean, isDark: boolean, accent: Accen
     root.style.setProperty('--secondary', '0 0% 4%');
     root.style.setProperty('--muted', '0 0% 4%');
     root.style.setProperty('--border', '0 0% 8%');
+    root.style.setProperty('--muted-foreground', palette.darkMuted);
   } else {
-    // Material You dark mode - use default dark mode values from CSS
-    // Remove pitch black overrides to use CSS defaults
-    root.style.removeProperty('--background');
-    root.style.removeProperty('--card');
-    root.style.removeProperty('--popover');
-    root.style.removeProperty('--secondary');
-    root.style.removeProperty('--muted');
-    root.style.removeProperty('--border');
+    // Material You dark mode with accent-based surfaces
+    root.style.setProperty('--background', palette.darkSurface);
+    root.style.setProperty('--card', palette.darkSurfaceVariant);
+    root.style.setProperty('--popover', palette.darkSurfaceVariant);
+    root.style.setProperty('--secondary', palette.darkSurfaceVariant);
+    root.style.setProperty('--muted', palette.darkSurfaceVariant);
+    root.style.setProperty('--border', palette.darkBorder);
+    root.style.setProperty('--muted-foreground', palette.darkMuted);
   }
 }
 
@@ -160,8 +207,5 @@ export function initializeTheme(isDark: boolean = true) {
   const accent = getStoredAccent();
   const pitchBlack = getStoredPitchBlack();
   applyAccentColor(accent);
-  // Only apply pitch black if in dark mode and enabled
-  if (isDark) {
-    applyPitchBlack(pitchBlack, isDark, accent);
-  }
+  applyThemeMode(isDark, pitchBlack, accent);
 }

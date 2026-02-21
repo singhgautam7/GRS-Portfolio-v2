@@ -61,25 +61,26 @@
   }
 
   .dark {
-    /* Material You dark mode - will be overridden by pitch black toggle if enabled */
-    --background: 0 0% 8%;
+    /* Material You dark mode - default to Google Blue accent
+       Will be overridden by applyPitchBlack/applyAccentColor if pitch black is disabled */
+    --background: 214 50% 8%;
     --foreground: 0 0% 93%;
-    --card: 0 0% 12%;
+    --card: 214 40% 12%;
     --card-foreground: 0 0% 93%;
-    --popover: 0 0% 12%;
+    --popover: 214 40% 12%;
     --popover-foreground: 0 0% 93%;
     --primary: 214 100% 66%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 16%;
+    --secondary: 214 40% 12%;
     --secondary-foreground: 0 0% 93%;
-    --muted: 0 0% 16%;
-    --muted-foreground: 220 9% 64%;
+    --muted: 214 40% 12%;
+    --muted-foreground: 214 25% 45%;
     --accent: 214 100% 66%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
+    --border: 214 30% 20%;
+    --input: 214 30% 20%;
     --ring: 214 100% 66%;
     --emerald-tint: rgba(76, 139, 245, 0.08);
     --emerald-glow: rgba(76, 139, 245, 0.15);
@@ -186,3 +187,37 @@ body {
   z-index: 100;
   transition: width 50ms linear;
 }
+
+@layer components {
+  /* Material You assist chip */
+  .chip-assist {
+    @apply relative inline-flex items-center justify-center rounded-full px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide transition-colors;
+    background-color: color-mix(in srgb, hsl(var(--accent)) 12%, hsl(var(--background)));
+    border: 1px solid color-mix(in srgb, hsl(var(--accent)) 30%, transparent);
+    color: hsl(var(--foreground));
+  }
+
+  .dark .chip-assist {
+    background-color: color-mix(in srgb, hsl(var(--accent)) 15%, hsl(var(--background)));
+    color: color-mix(in srgb, hsl(var(--accent)) 90%, white);
+  }
+
+  /* Command Palette Custom Styles */
+  [cmdk-group-heading] {
+    color: color-mix(in srgb, hsl(var(--accent)) 70%, hsl(var(--foreground)));
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding-inline: 0.75rem;
+    padding-block: 0.5rem;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  [cmdk-group] + [cmdk-group] {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid color-mix(in srgb, hsl(var(--accent)) 20%, transparent);
+  }
+}
+

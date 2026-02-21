@@ -1,104 +1,82 @@
-# GRS-Portfolio-v2
+# GRS Portfolio v2 🚀
 
-A modern, zero-cost portfolio platform built with Next.js 15, TypeScript, and Tailwind CSS. Designed as a product-grade personal portfolio with dark/light themes, command palette, markdown-driven content, and recruiter-optimized sections.
+A modern, high-performance personal portfolio, built to showcase engineering projects, experience, and articles. It leverages the new App Router in Next.js, along with refined animations via Framer Motion, and follows Material You design principles for fluid theming.
 
-## Quick Start
+---
 
-```bash
-# Navigate to project
-cd GRS-Portfolio-v2
+## 📸 Screenshots
 
-# Install dependencies (use bun if available, otherwise npm)
-bun install
-# or
-npm install
+<!-- Screenshot Placeholders (Replace with actual image links) -->
+| Light Mode | Dark Mode |
+| --- | --- |
+| ![Light Mode Home]() | ![Dark Mode Home]() |
+| ![Projects View]() | ![Articles/Blog View]() |
 
-# Start dev server
-bun run dev
-# or
-npm run dev
+---
 
-# Open http://localhost:3000
+## ✨ Features
+
+- **Material You Dynamic Theming:** Fluidly transitions surfaces and components based on selected Light/Dark modes, "Pitch Black" true dark mode, and 5 custom accent colors.
+- **Unified Command Palette (`Cmd+K`):** Keyboard-first navigation accessible from anywhere.
+- **Markdown Hydration:** Fully statically generated project and blog posts managed exclusively via markdown metadata (`content/`).
+- **Smooth Animations:** Integrated scroll reveals and micro-interactions utilizing Framer Motion.
+- **Accessibility (a11y) First:** Semantic HTML, ARIA labels, intuitive keyboard-trapping modal navigation, and high-contrast Material tags.
+- **Performant & Responsive:** Near-instant load times with Next.js Turbopack image optimization. Built mobile-first.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: `Next.js 15` (App Router)
+- **Language**: `TypeScript`
+- **Styling**: `Tailwind CSS 3` + Native CSS (`color-mix()`)
+- **Animations**: `Framer Motion`
+- **Icons**: `Lucide React`
+- **Content Parsing**: `gray-matter` + `Zod`
+
+---
+
+## 💻 Local Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/singhgautam7/GRS-Portfolio-v2.git
+   cd GRS-Portfolio-v2
+   ```
+
+2. **Install core dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000) (or whatever port Next.js automatically assigns).
+
+---
+
+## 📝 Content Management
+
+To add new Jobs, Projects, Featured Items, or Blog posts, simply drop a new `.md` file into the `/content` directory following the respective Zod schema frontmatter format:
+
+```markdown
+---
+date: 2026-02-15
+title: "Project Title"
+tech: ["React", "Typescript"]
+---
+Body content...
 ```
 
-## Tech Stack
+---
 
-| Layer      | Technology                          |
-| ---------- | ----------------------------------- |
-| Framework  | Next.js 15 (App Router)             |
-| Language   | TypeScript (strict)                 |
-| Styling    | Tailwind CSS                        |
-| Animations | Framer Motion                       |
-| Content    | Markdown + gray-matter + Zod schemas |
-| Search     | Fuse.js (client-side)               |
-| UI         | cmdk, Lucide icons, Radix primitives |
-| Themes     | next-themes (dark/light/system)     |
+## 📜 License
 
-## Features
-
-- **🌗 Dark/Light Mode** — System detection + manual toggle + localStorage persistence
-- **⌘K Command Palette** — Navigate anywhere with keyboard shortcuts
-- **📝 Markdown Content** — Auto-detect `.md/.mdx` files in `content/`
-- **🔍 Global Search** — Client-side search across all content
-- **📊 Resume Page** — Timeline, skills matrix, impact metrics
-- **📰 Blog** — Listing + individual post pages
-- **🗃️ Archive** — Full project table
-- **📍 Now Page** — What I'm currently working on
-- **🎨 Animations** — Smooth scroll-triggered reveals, staggered hero
-
-## Project Structure
-
-```
-GRS-Portfolio-v2/
-├── content/               # Markdown content (auto-detected)
-│   ├── jobs/              # Work experience
-│   ├── projects/          # Project entries
-│   ├── featured/          # Featured projects
-│   └── posts/             # Blog posts
-├── src/
-│   ├── app/               # Next.js App Router pages
-│   │   ├── page.tsx       # Home (hero, about, experience, projects, contact)
-│   │   ├── blog/          # Blog listing + [slug] post pages
-│   │   ├── archive/       # Projects archive table
-│   │   ├── resume/        # Resume with timeline & skills
-│   │   └── now/           # "Now" page
-│   ├── components/        # React components
-│   │   ├── navbar.tsx     # Scroll-aware responsive navbar
-│   │   ├── command-palette.tsx  # ⌘K command palette
-│   │   ├── theme-toggle.tsx     # Dark/light/system toggle
-│   │   └── sections/      # Home page sections
-│   └── lib/
-│       ├── config.ts      # Site configuration
-│       ├── content.ts     # Markdown content system with Zod
-│       └── utils.ts       # Utility functions
-├── tailwind.config.ts     # Design system tokens
-└── package.json
-```
-
-## Adding Content
-
-Drop new `.md` files into the appropriate `content/` subdirectory:
-
-**Jobs**: `content/jobs/CompanyName/index.md`
-**Projects**: `content/projects/ProjectName.md`
-**Featured**: `content/featured/ProjectName/index.md`
-**Posts**: `content/posts/post-slug/index.md`
-
-Files are auto-detected — no config changes needed.
-
-## Deployment
-
-```bash
-bun run build    # Build for production
-bun run start    # Start production server
-```
-
-Deployable to Vercel, Cloudflare Pages, or any static hosting.
-
-## Design Reference
-
-Color palette and aesthetic inspired by the original [GRS-portfolio](https://www.singhgautam.com/):
-- Dark navy/black backgrounds
-- Green accent (#64ffda)
-- Slate/muted text hierarchy
-- Minimal, content-first design
+This project is licensed under the [MIT License](LICENSE).
+Created and maintained by **Gautam Singh**.

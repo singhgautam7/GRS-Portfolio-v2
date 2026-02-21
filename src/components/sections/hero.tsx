@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, FileDown, Clock } from 'lucide-react';
 import { siteConfig } from '@/lib/config';
+import { TechTag } from '@/components/ui/tech-tag';
 
 const container = {
   hidden: { opacity: 0 },
@@ -91,12 +92,9 @@ export function HeroSection() {
           {/* Skills chips */}
           <motion.div variants={item} className="mt-10 flex flex-wrap gap-2">
             {siteConfig.heroChips.map((chip) => (
-              <span
-                key={chip}
-                className="rounded-full border border-border bg-secondary px-3 py-1 font-mono text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
-              >
+              <TechTag key={chip}>
                 {chip}
-              </span>
+              </TechTag>
             ))}
           </motion.div>
 

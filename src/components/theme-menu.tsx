@@ -19,7 +19,7 @@ import {
   setStoredPitchBlack,
   initializeTheme,
   applyAccentColor,
-  applyPitchBlack,
+  applyThemeMode,
 } from '@/lib/theme';
 
 export function ThemeMenu() {
@@ -31,7 +31,7 @@ export function ThemeMenu() {
     return getStoredAccent();
   });
   const [pitchBlack, setPitchBlack] = useState(false);
-  
+
   // Calculate isDark early so it can be used in useEffect hooks
   const isDark = theme === 'dark';
 
@@ -49,24 +49,26 @@ export function ThemeMenu() {
     if (mounted) {
       setStoredAccent(accent);
       applyAccentColor(accent);
-      // Reapply pitch black with new accent
-      const pitchBlackEnabled = getStoredPitchBlack();
-      applyPitchBlack(pitchBlackEnabled, isDark, accent);
+      // Reapply dark mode surfaces with new accent (if in dark mode)
+      if (isDark) {
+        const pitchBlackEnabled = getStoredPitchBlack();
+        applyThemeMode(isDark, pitchBlackEnabled, accent);
+      }
     }
   }, [accent, mounted, isDark]);
 
   useEffect(() => {
     if (mounted) {
       setStoredPitchBlack(pitchBlack);
-      applyPitchBlack(pitchBlack, isDark, accent);
+      applyThemeMode(isDark, pitchBlack, accent);
     }
   }, [pitchBlack, mounted, isDark, accent]);
 
   useEffect(() => {
     if (mounted) {
-      // When theme changes, reapply pitch black if needed
+      // When theme changes, reapply surfaces
       const pitchBlackEnabled = getStoredPitchBlack();
-      applyPitchBlack(pitchBlackEnabled, isDark, accent);
+      applyThemeMode(isDark, pitchBlackEnabled, accent);
     }
   }, [theme, mounted, isDark, accent]);
 
@@ -159,10 +161,11 @@ export function ThemeMenu() {
                       // Don't close dropdown
                     }}
                     className={cn(
-                      'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
+                      'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200',
                       theme === 'light'
                         ? 'bg-emerald-tint text-primary'
                         : 'text-muted-foreground hover:bg-emerald-tint/50 hover:text-primary',
+                      'focus:outline-none focus:ring-2 focus:ring-primary/50',
                     )}
                   >
                     <Sun size={16} />
@@ -174,16 +177,17 @@ export function ThemeMenu() {
                   <button
                     onClick={() => {
                       setTheme('dark');
-                      // Reapply pitch black if it was enabled
+                      // Reapply dark mode surfaces with current accent
                       const pitchBlackEnabled = getStoredPitchBlack();
-                      applyPitchBlack(pitchBlackEnabled, true, accent);
+                      applyThemeMode(true, pitchBlackEnabled, accent);
                       // Don't close dropdown
                     }}
                     className={cn(
-                      'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
+                      'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200',
                       theme === 'dark'
                         ? 'bg-emerald-tint text-primary'
                         : 'text-muted-foreground hover:bg-emerald-tint/50 hover:text-primary',
+                      'focus:outline-none focus:ring-2 focus:ring-primary/50',
                     )}
                   >
                     <Moon size={16} />
@@ -205,13 +209,14 @@ export function ThemeMenu() {
                     setStoredPitchBlack(!pitchBlack);
                   }}
                   disabled={!isDark}
-                  className={cn(
-                    'flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors',
-                    !isDark && 'opacity-50 cursor-not-allowed',
-                    pitchBlack && isDark
-                      ? 'bg-emerald-tint text-primary'
-                      : 'text-muted-foreground hover:bg-emerald-tint/50 hover:text-primary',
-                  )}
+                      className={cn(
+                        'flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200',
+                        !isDark && 'opacity-50 cursor-not-allowed',
+                        pitchBlack && isDark
+                          ? 'bg-emerald-tint text-primary'
+                          : 'text-muted-foreground hover:bg-emerald-tint/50 hover:text-primary',
+                        'focus:outline-none focus:ring-2 focus:ring-primary/50',
+                      )}
                 >
                   <span>Pitch black in dark mode</span>
                   <div

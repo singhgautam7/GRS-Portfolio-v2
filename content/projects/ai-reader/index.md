@@ -1,0 +1,14 @@
+---
+date: 2026-02-15
+title: "AI Reader"
+github: "https://github.com/singhgautam7/AI-Book-Reader-Web"
+tech:
+  - "Next.js"
+  - "TypeScript"
+  - "Tailwind CSS"
+  - "Web Speech API"
+type: "Personal Project"
+showInProjects: true
+---
+
+A web application that converts books into immersive audio experiences using AI narration. Supports EPUB, PDF, and web links, provides natural-sounding speech, bookmarking, and a distraction-free reading interface. All text-to-speech processing is handled efficiently.
