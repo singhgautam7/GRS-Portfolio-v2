@@ -9,6 +9,14 @@ import {
   Check,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   accentPalettes,
@@ -114,32 +122,72 @@ export function ThemeMenu() {
                 <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Accent Color
                 </p>
-                <div className="grid grid-cols-5 gap-2">
-                  {Object.values(accentPalettes).map((palette) => (
-                    <button
-                      key={palette.name}
-                      onClick={() => {
-                        setAccent(palette.name);
-                        setStoredAccent(palette.name);
-                      }}
-                      className={cn(
-                        'group relative flex h-10 w-10 items-center justify-center rounded-xl',
-                        'border-2 transition-all',
-                        accent === palette.name
-                          ? 'border-primary scale-110'
-                          : 'border-border hover:border-primary/50',
-                      )}
-                      style={{
-                        backgroundColor: `hsl(${palette.hsl})`,
-                      }}
-                      aria-label={`Select ${palette.name} accent`}
-                    >
-                      {accent === palette.name && (
-                        <Check size={16} className="text-black" />
-                      )}
-                    </button>
-                  ))}
-                </div>
+                <TooltipProvider delayDuration={200}>
+                  <div className="grid grid-cols-3 gap-3">
+                    {Object.values(accentPalettes).map((palette) => {
+                      const isSelected = accent === palette.name;
+                      // Determine the outer squarcle background based on mode and palette
+                      const outerBg = isDark ? `hsl(${palette.darkSurfaceVariant})` : `hsl(${palette.lightSurfaceVariant})`;
+
+                      return (
+                        <Tooltip key={palette.name}>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => {
+                                setAccent(palette.name);
+                                setStoredAccent(palette.name);
+                              }}
+                              className={cn(
+                                'group relative flex flex-col items-center gap-1.5 transition-all outline-none',
+                                isSelected ? 'scale-105' : 'hover:scale-105'
+                              )}
+                              aria-label={`Select ${palette.name} theme`}
+                            >
+                              {/* Outer Squarcle */}
+                              <div
+                                className={cn(
+                                  'relative w-[60px] h-[60px] rounded-[18px] flex items-center justify-center transition-all duration-300',
+                                  'border shadow-sm group-hover:shadow-md group-focus-visible:ring-2 group-focus-visible:ring-primary/60 group-focus-visible:ring-offset-2',
+                                  isSelected
+                                    ? 'border-primary/50 ring-1 ring-primary/20 shadow-[0_0_15px_rgba(var(--primary-rgb),0.15)]'
+                                    : 'border-border/50 group-hover:border-primary/30'
+                                )}
+                                style={{
+                                  backgroundColor: outerBg,
+                                }}
+                              >
+                                {/* Inner Squarcle */}
+                                <div
+                                  className={cn(
+                                    'w-8 h-8 rounded-[10px] shadow-sm flex items-center justify-center transition-transform duration-300',
+                                    isSelected ? 'scale-110' : 'group-hover:scale-110'
+                                  )}
+                                  style={{ backgroundColor: `hsl(${palette.hsl})` }}
+                                >
+                                  <AnimatePresence>
+                                    {isSelected && (
+                                      <motion.div
+                                        initial={{ scale: 0, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        exit={{ scale: 0, opacity: 0 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                      >
+                                        <Check size={16} className="text-white drop-shadow-md" strokeWidth={3} />
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              </div>
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="capitalize">{palette.name.replace('-', ' ')}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      );
+                    })}
+                  </div>
+                </TooltipProvider>
               </div>
 
               <div className="h-px bg-border" />
@@ -201,38 +249,23 @@ export function ThemeMenu() {
 
               {/* Pitch Black Toggle - Always visible */}
               <div className="h-px bg-border" />
-              <div className="p-4">
-                <button
-                  onClick={() => {
-                    if (!isDark) return; // Disabled in light mode
-                    setPitchBlack(!pitchBlack);
-                    setStoredPitchBlack(!pitchBlack);
+              <div className="p-4 flex flex-row items-center justify-between">
+                <Label
+                  htmlFor="pitch-black"
+                  className={cn("text-sm font-medium", !isDark && "opacity-50 cursor-not-allowed")}
+                >
+                  Pitch black in dark mode
+                </Label>
+                <Switch
+                  id="pitch-black"
+                  checked={pitchBlack && isDark}
+                  onCheckedChange={(checked) => {
+                    setPitchBlack(checked);
+                    setStoredPitchBlack(checked);
                   }}
                   disabled={!isDark}
-                      className={cn(
-                        'flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200',
-                        !isDark && 'opacity-50 cursor-not-allowed',
-                        pitchBlack && isDark
-                          ? 'bg-emerald-tint text-primary'
-                          : 'text-muted-foreground hover:bg-emerald-tint/50 hover:text-primary',
-                        'focus:outline-none focus:ring-2 focus:ring-primary/50',
-                      )}
-                >
-                  <span>Pitch black in dark mode</span>
-                  <div
-                    className={cn(
-                      'h-5 w-9 rounded-full transition-colors',
-                      pitchBlack && isDark ? 'bg-primary' : 'bg-muted',
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        'h-5 w-5 rounded-full bg-background transition-transform',
-                        pitchBlack && isDark ? 'translate-x-4' : 'translate-x-0',
-                      )}
-                    />
-                  </div>
-                </button>
+                  className="data-[state=checked]:bg-primary"
+                />
               </div>
             </motion.div>
           </>

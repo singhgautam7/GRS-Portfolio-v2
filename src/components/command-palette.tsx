@@ -67,7 +67,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 
   const itemClass = cn(
     'flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium',
-    'text-foreground transition-colors duration-200',
+    'text-foreground transition-all duration-200 active:scale-[0.98]',
     'hover:bg-emerald-tint hover:text-primary',
     'aria-selected:bg-emerald-tint aria-selected:text-primary',
     'focus:outline-none focus:ring-2 focus:ring-primary/50',
@@ -90,11 +90,11 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           {/* Dialog Container */}
           <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pt-[20vh] sm:p-6 sm:pt-[20vh] pointer-events-none items-start">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              initial={{ opacity: 0, scale: 0.96, y: -16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-2xl pointer-events-auto rounded-3xl border border-border bg-card shadow-elevation overflow-hidden"
+              exit={{ opacity: 0, scale: 0.96, y: -16 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-2xl pointer-events-auto rounded-3xl border border-border bg-card shadow-elevation overflow-hidden glass-surface"
             >
               <Command
                 className="w-full h-full bg-transparent"

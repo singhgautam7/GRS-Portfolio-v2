@@ -40,9 +40,10 @@ export function ExperienceSection({ jobs }: ExperienceSectionProps) {
                 className="group relative pl-8 pb-8 last:pb-0"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-0 top-[10px] h-[15px] w-[15px] rounded-full border-2 border-primary bg-background transition-colors group-hover:bg-primary" />
+                <div className="absolute left-0 top-[10px] h-[15px] w-[15px] rounded-full border-2 border-primary bg-background transition-colors group-hover:bg-primary z-10" />
 
-                {/* Vertical stack: title, date, location */}
+                <div className="glass-surface hover-lift rounded-xl p-5 -ml-5 mt-[-10px] bg-transparent hover:bg-card/50 border border-transparent hover:border-border/30">
+                  {/* Vertical stack: title, date, location */}
                 <div className="flex flex-col items-start">
                   <h3 className="text-sm font-semibold text-foreground">
                     {job.title}{' '}
@@ -83,6 +84,7 @@ export function ExperienceSection({ jobs }: ExperienceSectionProps) {
                       ))}
                   </ul>
                 )}
+                </div>
               </motion.div>
             ))}
           </div>

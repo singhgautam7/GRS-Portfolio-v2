@@ -99,7 +99,6 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
   },
 };
 
-const THEME_STORAGE_KEY = 'grs-portfolio-theme';
 const ACCENT_STORAGE_KEY = 'grs-portfolio-accent';
 const PITCH_BLACK_STORAGE_KEY = 'grs-portfolio-pitch-black';
 
@@ -156,6 +155,7 @@ export function applyAccentColor(accent: AccentColor) {
   }
 
   const root = document.documentElement;
+
   root.style.setProperty('--primary', palette.hsl);
   root.style.setProperty('--accent', palette.hsl);
   root.style.setProperty('--ring', palette.hsl);

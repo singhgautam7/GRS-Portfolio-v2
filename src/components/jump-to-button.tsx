@@ -26,7 +26,7 @@ export function JumpToButton({ onClick }: JumpToButtonProps) {
         'flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2',
         'text-sm font-medium text-muted-foreground transition-all duration-200',
         'hover:border-primary/30 hover:text-primary hover:bg-emerald-tint/30',
-        'focus:outline-none focus:ring-2 focus:ring-primary/50',
+        'hover-lift btn-press focus:outline-none focus:ring-2 focus:ring-primary/50',
       )}
       aria-label="Jump to section"
     >

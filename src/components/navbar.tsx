@@ -53,7 +53,7 @@ export function Navbar({ onJumpToClick }: NavbarProps) {
         animate={{ y: isVisible ? 0 : -80 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          'fixed left-0 right-0 top-0 z-50 transition-all duration-300',
+          'fixed left-0 right-0 top-0 z-50 transition-all duration-300 glass-surface',
           isScrolled
             ? 'border-b border-border/50 bg-background/80 backdrop-blur-xl'
             : 'bg-transparent',
@@ -61,7 +61,7 @@ export function Navbar({ onJumpToClick }: NavbarProps) {
       >
         <nav className="mx-auto flex h-nav-height max-w-page items-center justify-between px-6 lg:px-12">
           {/* Logo */}
-          <Link href="/" className="group relative z-10">
+          <Link href="/" className="group relative z-10 block transition-transform hover:scale-105 active:scale-95">
             <span className="font-mono text-lg font-bold text-primary transition-opacity hover:opacity-80">
               GRS
             </span>
@@ -74,7 +74,7 @@ export function Navbar({ onJumpToClick }: NavbarProps) {
               href={siteConfig.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-mono text-xs font-medium shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-elevation-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-mono text-xs font-medium shadow-sm hover-lift btn-press focus:outline-none focus:ring-2 focus:ring-primary/50"
               style={{ color: 'hsl(var(--primary-foreground))' }}
             >
               <Download size={14} />

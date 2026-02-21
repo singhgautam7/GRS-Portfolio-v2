@@ -64,7 +64,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-[520px] pointer-events-auto rounded-3xl border border-border bg-card p-6 shadow-elevation"
+              className="w-full max-w-[520px] pointer-events-auto rounded-3xl border border-border bg-card p-6 shadow-elevation glass-surface"
               role="dialog"
               aria-modal="true"
               aria-labelledby="project-dialog-title"
@@ -145,7 +145,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-xl border border-primary/30 bg-card px-5 py-2.5 font-mono text-xs font-medium text-primary transition-all duration-200 hover:border-primary/50 hover:bg-emerald-tint/30 hover:shadow-elevation-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      className="flex items-center gap-2 rounded-xl border border-primary/30 bg-card px-5 py-2.5 font-mono text-xs font-medium text-primary transition-all duration-200 hover:border-primary/50 hover:bg-emerald-tint/30 hover:shadow-elevation-sm hover-lift btn-press focus:outline-none focus:ring-2 focus:ring-primary/50"
                     >
                       <Github size={14} />
                       GitHub Repo
@@ -156,7 +156,7 @@ function ProjectDialog({ project, onClose }: ProjectDialogProps) {
                       href={project.external}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-mono text-xs font-medium text-primary-foreground shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-elevation-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 font-mono text-xs font-medium text-primary-foreground shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-elevation-md hover-lift btn-press focus:outline-none focus:ring-2 focus:ring-primary/50"
                       style={{ color: 'hsl(var(--primary-foreground))' }}
                     >
                       <ExternalLink size={14} />

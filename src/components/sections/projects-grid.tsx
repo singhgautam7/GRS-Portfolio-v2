@@ -80,7 +80,7 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -16 }}
                     transition={{ delay: i * 0.05, duration: 0.3 }}
-                    className="group flex flex-col rounded-lg border border-border bg-card p-5 transition-all duration-200 hover:border-primary/20"
+                    className="group flex flex-col rounded-lg border border-border bg-card p-5 transition-all duration-200 hover:border-primary/20 hover-lift glass-surface"
                   >
                     <div className="mb-3 flex items-start justify-between">
                       <button
@@ -152,7 +152,7 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
           >
             <button
               onClick={() => setShowAll(!showAll)}
-              className="group flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 font-mono text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary hover:bg-emerald-tint/30 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="group flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 font-mono text-sm font-medium text-muted-foreground transition-all duration-200 hover:border-primary/30 hover:text-primary hover:bg-emerald-tint/30 btn-press hover-lift focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               {showAll ? 'Show Less' : 'Show More'}
               <ChevronDown
