@@ -91,7 +91,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           />
 
           {/* Dialog Container */}
-          <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pt-[20vh] sm:p-6 sm:pt-[20vh] pointer-events-none items-start">
+          <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pt-[15vh] sm:p-6 sm:pt-[15vh] pointer-events-none items-start">
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: -16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -120,7 +120,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                   </button>
                 </div>
 
-                <Command.List className="max-h-[60vh] overflow-y-auto p-2 sm:max-h-[400px]">
+                <Command.List className="max-h-[70vh] overflow-y-auto p-2 sm:max-h-[500px]">
                   <Command.Empty className="py-12 text-center text-sm text-muted-foreground">
                     No results found.
                   </Command.Empty>
