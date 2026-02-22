@@ -2,6 +2,7 @@
 date: 2026-02-15
 title: "AI Reader"
 github: "https://github.com/singhgautam7/AI-Book-Reader-Web"
+external: 'https://singhgautam7.github.io/AI-Book-Reader-Web/'
 tech:
   - "Next.js"
   - "TypeScript"

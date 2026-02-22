@@ -4,6 +4,9 @@ date: "2026-02-10"
 tldr: "AI Book Reader is a privacy-first web application that transforms personal documents and web articles into audiobooks using multiple AI text-to-speech providers. Built entirely client-side, it supports offline reading, premium AI voices, audio caching, playback history, and an immersive reader experience without uploading files to any server."
 tags: ["AI", "TTS", "System Design"]
 timeline: true
+timeline_pointers:
+  - AI Book Reader is a privacy-first, browser-based application that converts PDFs, EPUBs, and web articles into immersive audiobooks
+  - It uses multiple AI text-to-speech providers — without uploading files to any server
 ---
 
 ## Executive Summary
