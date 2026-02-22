@@ -228,9 +228,9 @@ figure[data-rehype-pretty-code-figure] {
   /* Material You assist chip */
   .chip-assist {
     @apply relative inline-flex items-center justify-center rounded-full px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide transition-colors;
-    background-color: color-mix(in srgb, hsl(var(--accent)) 12%, hsl(var(--background)));
+    background-color: color-mix(in srgb, hsl(var(--accent)) 15%, hsl(var(--background)));
     border: 1px solid color-mix(in srgb, hsl(var(--accent)) 30%, transparent);
-    color: hsl(var(--foreground));
+    color: hsl(var(--accent));
   }
 
   .dark .chip-assist {

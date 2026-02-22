@@ -31,7 +31,7 @@ import {
 } from '@/lib/theme';
 
 export function ThemeMenu() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [accent, setAccent] = useState<AccentColor>(() => {
@@ -40,45 +40,27 @@ export function ThemeMenu() {
   });
   const [pitchBlack, setPitchBlack] = useState(false);
 
-  // Calculate isDark early so it can be used in useEffect hooks
-  const isDark = theme === 'dark';
+  // Use resolvedTheme as the absolute source of truth to avoid 'system' mismatches
+  const isDark = resolvedTheme === 'dark';
 
   useEffect(() => {
+    // Phase 1: Mount initialization
     setMounted(true);
-    setAccent(getStoredAccent());
-    setPitchBlack(getStoredPitchBlack());
-    // Initialize theme when component mounts and theme is available
-    if (theme) {
-      initializeTheme(theme === 'dark');
+    if (!mounted) {
+      setAccent(getStoredAccent());
+      setPitchBlack(getStoredPitchBlack());
+      return; // Exit early on first pass to let state settle
     }
-  }, [theme]);
 
-  useEffect(() => {
-    if (mounted) {
-      setStoredAccent(accent);
-      applyAccentColor(accent);
-      // Reapply dark mode surfaces with new accent (if in dark mode)
-      if (isDark) {
-        const pitchBlackEnabled = getStoredPitchBlack();
-        applyThemeMode(isDark, pitchBlackEnabled, accent);
-      }
-    }
-  }, [accent, mounted, isDark]);
+    // Phase 2: Consolidated Reactive Sync
+    // This executes consistently whenever any variable changes, completely eliminating race conditions.
+    setStoredAccent(accent);
+    setStoredPitchBlack(pitchBlack);
 
-  useEffect(() => {
-    if (mounted) {
-      setStoredPitchBlack(pitchBlack);
-      applyThemeMode(isDark, pitchBlack, accent);
-    }
-  }, [pitchBlack, mounted, isDark, accent]);
+    // Nuke previous transient caches, force DOM repaint through applyThemeMode
+    applyThemeMode(isDark, pitchBlack, accent);
 
-  useEffect(() => {
-    if (mounted) {
-      // When theme changes, reapply surfaces
-      const pitchBlackEnabled = getStoredPitchBlack();
-      applyThemeMode(isDark, pitchBlackEnabled, accent);
-    }
-  }, [theme, mounted, isDark, accent]);
+  }, [theme, resolvedTheme, accent, pitchBlack, mounted, isDark]);
 
   if (!mounted) {
     return <div className="h-9 w-9" />;
@@ -162,7 +144,7 @@ export function ThemeMenu() {
                                     'w-8 h-8 rounded-[10px] shadow-sm flex items-center justify-center transition-transform duration-300',
                                     isSelected ? 'scale-110' : 'group-hover:scale-110'
                                   )}
-                                  style={{ backgroundColor: `hsl(${palette.hsl})` }}
+                                  style={{ backgroundColor: `hsl(${(!isDark && palette.lightHsl) ? palette.lightHsl : palette.hsl})` }}
                                 >
                                   <AnimatePresence>
                                     {isSelected && (

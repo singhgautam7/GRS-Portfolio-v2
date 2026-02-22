@@ -1,11 +1,13 @@
 // Material You theme system
-export type AccentColor = 'google-blue' | 'neo-mint' | 'deep-indigo' | 'cyan-tech' | 'warm-coral';
+export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'warm-coral';
 
 export interface AccentPalette {
   name: AccentColor;
   hsl: string; // HSL values for primary color
+  lightHsl?: string; // Optional specific HSL for high contrast in light mode
   rgb: string; // RGB for direct use
   tint: string; // Tint color for backgrounds (light mode)
+  lightTint?: string; // Optional specific tint for light mode UI surfaces
   glow: string; // Glow color
 
   // Light Mode Surfaces
@@ -37,20 +39,37 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     darkBorder: '214 30% 20%',
     darkMuted: '214 25% 45%',
   },
-  'neo-mint': {
-    name: 'neo-mint',
-    hsl: '142 71% 45%', // #22C55E (Softer Emerald)
-    rgb: '34, 197, 94',
-    tint: 'rgba(34, 197, 94, 0.08)',
-    glow: 'rgba(34, 197, 94, 0.15)',
-    lightSurface: '146 60% 97%', // #F4FBF7
-    lightSurfaceVariant: '145 60% 95%', // #ECF7F1
-    lightBorder: '142 30% 88%',
-    lightMuted: '142 20% 45%',
-    darkSurface: '142 50% 6%', // Very dark green
-    darkSurfaceVariant: '142 40% 10%',
-    darkBorder: '142 30% 18%',
-    darkMuted: '142 25% 42%',
+  'cyan-tech': {
+    name: 'cyan-tech',
+    hsl: '188 100% 42%', // #00B8D4
+    rgb: '0, 184, 212',
+    tint: 'rgba(0, 184, 212, 0.08)',
+    glow: 'rgba(0, 184, 212, 0.15)',
+    lightSurface: '188 80% 97%', // #E6F8FC
+    lightSurfaceVariant: '188 80% 95%',
+    lightBorder: '188 30% 88%',
+    lightMuted: '188 20% 45%',
+    darkSurface: '188 50% 7%', // Very dark cyan
+    darkSurfaceVariant: '188 40% 11%',
+    darkBorder: '188 30% 19%',
+    darkMuted: '188 25% 44%',
+  },
+  'solar-gold': {
+    name: 'solar-gold',
+    hsl: '44 91% 61%', // #F5C542
+    lightHsl: '43 89% 38%', // #B8860B (Darker Goldenrod for readable Light Mode text)
+    rgb: '245, 197, 66',
+    tint: 'rgba(245, 197, 66, 0.12)',
+    lightTint: 'rgba(184, 134, 11, 0.14)', // Stronger tint for subtle light mode backing
+    glow: 'rgba(245, 197, 66, 0.18)',
+    lightSurface: '44 100% 98%', // Soft gold tint
+    lightSurfaceVariant: '44 100% 96%',
+    lightBorder: '44 30% 88%',
+    lightMuted: '44 20% 45%',
+    darkSurface: '44 50% 6%', // Very dark gold ground
+    darkSurfaceVariant: '44 40% 10%',
+    darkBorder: '44 30% 18%',
+    darkMuted: '44 25% 45%',
   },
   'deep-indigo': {
     name: 'deep-indigo',
@@ -67,20 +86,20 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     darkBorder: '258 30% 20%',
     darkMuted: '258 25% 45%',
   },
-  'cyan-tech': {
-    name: 'cyan-tech',
-    hsl: '188 100% 42%', // #00B8D4
-    rgb: '0, 184, 212',
-    tint: 'rgba(0, 184, 212, 0.08)',
-    glow: 'rgba(0, 184, 212, 0.15)',
-    lightSurface: '188 80% 97%', // #E6F8FC
-    lightSurfaceVariant: '188 80% 95%',
-    lightBorder: '188 30% 88%',
-    lightMuted: '188 20% 45%',
-    darkSurface: '188 50% 7%', // Very dark cyan
-    darkSurfaceVariant: '188 40% 11%',
-    darkBorder: '188 30% 19%',
-    darkMuted: '188 25% 44%',
+  'neo-mint': {
+    name: 'neo-mint',
+    hsl: '142 71% 45%', // #22C55E (Softer Emerald)
+    rgb: '34, 197, 94',
+    tint: 'rgba(34, 197, 94, 0.08)',
+    glow: 'rgba(34, 197, 94, 0.15)',
+    lightSurface: '146 60% 97%', // #F4FBF7
+    lightSurfaceVariant: '145 60% 95%', // #ECF7F1
+    lightBorder: '142 30% 88%',
+    lightMuted: '142 20% 45%',
+    darkSurface: '142 50% 6%', // Very dark green
+    darkSurfaceVariant: '142 40% 10%',
+    darkBorder: '142 30% 18%',
+    darkMuted: '142 25% 42%',
   },
   'warm-coral': {
     name: 'warm-coral',
@@ -143,7 +162,7 @@ export function setStoredPitchBlack(enabled: boolean) {
   localStorage.setItem(PITCH_BLACK_STORAGE_KEY, enabled.toString());
 }
 
-export function applyAccentColor(accent: AccentColor) {
+export function applyAccentColor(accent: AccentColor, isDarkOverride?: boolean) {
   if (typeof document === 'undefined') return;
 
   // Validate accent exists, fallback to default if not
@@ -155,11 +174,15 @@ export function applyAccentColor(accent: AccentColor) {
   }
 
   const root = document.documentElement;
+  const isDark = isDarkOverride !== undefined ? isDarkOverride : root.classList.contains('dark');
 
-  root.style.setProperty('--primary', palette.hsl);
-  root.style.setProperty('--accent', palette.hsl);
-  root.style.setProperty('--ring', palette.hsl);
-  root.style.setProperty('--emerald-tint', palette.tint);
+  const currentHsl = (!isDark && palette.lightHsl) ? palette.lightHsl : palette.hsl;
+  const currentTint = (!isDark && palette.lightTint) ? palette.lightTint : palette.tint;
+
+  root.style.setProperty('--primary', currentHsl);
+  root.style.setProperty('--accent', currentHsl);
+  root.style.setProperty('--ring', currentHsl);
+  root.style.setProperty('--emerald-tint', currentTint);
   root.style.setProperty('--emerald-glow', palette.glow);
 }
 
@@ -199,6 +222,9 @@ export function applyThemeMode(isDark: boolean, pitchBlack: boolean, accent: Acc
     root.style.setProperty('--border', palette.darkBorder);
     root.style.setProperty('--muted-foreground', palette.darkMuted);
   }
+
+  // Re-apply accent variables to ensure mode-specific (lightHsl/lightTint) variations are swapped seamlessly explicitly overriding DOM stale states
+  applyAccentColor(accent, isDark);
 }
 
 // Initialize theme on mount
