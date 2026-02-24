@@ -7,9 +7,15 @@ range: 'Oct 2019 - Dec 2021'
 url: 'https://codenicely.in/'
 timeline: true
 timeline_pointers:
-  - Developed full-stack web applications and APIs from scratch based on client demands
-  - Spearheaded a team of 4 people to design and develop projects across different platforms
-  - Mentored new Django developers and conducted technical applicant interviews
+  - Pioneered the development of tailored backend systems and REST APIs using Django Rest Framework(DRF)..
+  - Crafted web applications tailored to clients' demands, ensuring alignment with expectations.
+  - Led a team of four professionals, guiding the design and development of projects across diverse platforms.
+  - Personally managed client relationships, gathering feedback for continuous development and quality assurance.
+  - Mentored new Django developers, contributing to their professional growth within the company.
+  - Conducted interviews, shortlisting candidates aligned with company requirements.
+  - Managed cloud deployments on AWS EC2 instances and S3 buckets.
+  - Engineered Python scripts integrated with custom AWS IAM service roles to achieve automated EC2 scaling.
+  - Integrated Sentry for real-time error tracking and performance monitoring.
 ---
 
 - Pioneered the development of tailored backend systems and REST APIs using Django Rest Framework(DRF)..
