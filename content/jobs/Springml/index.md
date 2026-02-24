@@ -12,7 +12,9 @@ timeline_pointers:
   - Utilized Cloud Run, Cloud Functions, Cloud SQL, and Secret Manager for large scale projects
 ---
 
-- Devoted time to work on GCP resources.
-- Developed REST APIs on Flask and deployed it on Google Cloud Platform.
-- Used Infrastructure as a code tool (Terraform) to seamlessly manage the resource management in the cloud.
-- Utilized Google Cloud resources like, Cloud Run, Cloud Functions, Cloud SQL, Secret Manager, Cloud Storage, etc. for several projects and POCs.
+- Devoted expertise to the management of GCP resources.
+- Developed REST APIs on Flask, deploying them seamlessly on GCP,establishing CI/CD pipelines utilizing Google Cloud Build and GitHub Actions.
+- Leveraged Terraform for Infrastructure as Code to efficiently manage cloud resources.
+- Implemented event-driven architecture using Google Cloud Pub/Sub for message delivery, integrating with Twilio Voice API to create a scalable, real-time call queue system.
+- Utilized Google Kubernetes Engine (GKE) to deploy and manage containerized applications for multiple client projects and proof-of-concepts.
+- Took advantage of various Google Cloud services, including Cloud Run, Cloud Functions, Cloud SQL, Secret Manager, Pub-Sub, Cloud Storage, Docker and Google Kubernetes Engine for multiple projects and proof of concepts.

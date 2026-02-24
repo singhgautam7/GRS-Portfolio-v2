@@ -64,7 +64,7 @@ export const siteConfig = {
     heroChips: ['Python', 'Go', 'Cloud', 'Systems', 'APIs', 'Infrastructure'],
 
     skills: {
-        backend: ['Django', 'Flask', 'Go (Golang)', 'Python'],
+        backend: ['Django', 'Flask', 'Go', 'Python'],
         frontend: ['Next.js', 'React', 'Redux Toolkit'],
         devops_cloud: ['AWS', 'Docker', 'GCP', 'Kubernetes', 'Terraform'],
         databases: ['Firestore', 'MongoDB', 'Redis', 'SQL'],
