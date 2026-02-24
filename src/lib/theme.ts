@@ -120,6 +120,7 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
 
 const ACCENT_STORAGE_KEY = 'grs-portfolio-accent';
 const PITCH_BLACK_STORAGE_KEY = 'grs-portfolio-pitch-black';
+const AURORA_STORAGE_KEY = 'grs-portfolio-aurora';
 
 export function getStoredAccent(): AccentColor {
   if (typeof window === 'undefined') return 'google-blue';
@@ -162,6 +163,19 @@ export function setStoredPitchBlack(enabled: boolean) {
   localStorage.setItem(PITCH_BLACK_STORAGE_KEY, enabled.toString());
 }
 
+export function getStoredAuroraEnabled(): boolean {
+  if (typeof window === 'undefined') return true;
+  const stored = localStorage.getItem(AURORA_STORAGE_KEY);
+  // Default to true if not set
+  if (stored === null) return true;
+  return stored === 'true';
+}
+
+export function setStoredAuroraEnabled(enabled: boolean) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(AURORA_STORAGE_KEY, enabled.toString());
+}
+
 export function applyAccentColor(accent: AccentColor, isDarkOverride?: boolean) {
   if (typeof document === 'undefined') return;
 
@@ -186,10 +200,25 @@ export function applyAccentColor(accent: AccentColor, isDarkOverride?: boolean) 
   root.style.setProperty('--emerald-glow', palette.glow);
 }
 
-export function applyThemeMode(isDark: boolean, pitchBlack: boolean, accent: AccentColor = 'google-blue') {
+export function applyThemeMode(isDark: boolean, pitchBlack: boolean, accent: AccentColor = 'google-blue', auroraEnabled: boolean = true) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
   const palette = accentPalettes[accent] || accentPalettes['google-blue'];
+
+  // Logic constraint: Pitch Black instantly kills Aurora
+  const effectiveAurora = pitchBlack ? false : auroraEnabled;
+
+  if (effectiveAurora) {
+    root.classList.add('aurora-enabled');
+  } else {
+    root.classList.remove('aurora-enabled');
+  }
+
+  if (pitchBlack && isDark) {
+    root.classList.add('pitch-black');
+  } else {
+    root.classList.remove('pitch-black');
+  }
 
   if (!isDark) {
     // Light Mode with Material You tinted surfaces
@@ -232,6 +261,7 @@ export function initializeTheme(isDark: boolean = true) {
   if (typeof window === 'undefined') return;
   const accent = getStoredAccent();
   const pitchBlack = getStoredPitchBlack();
+  const auroraEnabled = getStoredAuroraEnabled();
   applyAccentColor(accent);
-  applyThemeMode(isDark, pitchBlack, accent);
+  applyThemeMode(isDark, pitchBlack, accent, auroraEnabled);
 }

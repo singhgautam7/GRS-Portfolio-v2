@@ -28,6 +28,8 @@ import {
   initializeTheme,
   applyAccentColor,
   applyThemeMode,
+  getStoredAuroraEnabled,
+  setStoredAuroraEnabled,
 } from '@/lib/theme';
 
 export function ThemeMenu() {
@@ -39,6 +41,7 @@ export function ThemeMenu() {
     return getStoredAccent();
   });
   const [pitchBlack, setPitchBlack] = useState(false);
+  const [auroraEnabled, setAuroraEnabled] = useState(false);
 
   // Use resolvedTheme as the absolute source of truth to avoid 'system' mismatches
   const isDark = resolvedTheme === 'dark';
@@ -49,6 +52,7 @@ export function ThemeMenu() {
     if (!mounted) {
       setAccent(getStoredAccent());
       setPitchBlack(getStoredPitchBlack());
+      setAuroraEnabled(getStoredAuroraEnabled());
       return; // Exit early on first pass to let state settle
     }
 
@@ -56,11 +60,12 @@ export function ThemeMenu() {
     // This executes consistently whenever any variable changes, completely eliminating race conditions.
     setStoredAccent(accent);
     setStoredPitchBlack(pitchBlack);
+    setStoredAuroraEnabled(auroraEnabled);
 
     // Nuke previous transient caches, force DOM repaint through applyThemeMode
-    applyThemeMode(isDark, pitchBlack, accent);
+    applyThemeMode(isDark, pitchBlack, accent, auroraEnabled);
 
-  }, [theme, resolvedTheme, accent, pitchBlack, mounted, isDark]);
+  }, [theme, resolvedTheme, accent, pitchBlack, auroraEnabled, mounted, isDark]);
 
   if (!mounted) {
     return <div className="h-9 w-9" />;
@@ -246,6 +251,28 @@ export function ThemeMenu() {
                     setStoredPitchBlack(checked);
                   }}
                   disabled={!isDark}
+                  className="data-[state=checked]:bg-primary"
+                />
+              </div>
+
+              {/* Aurora Background Toggle */}
+              <div className="h-px bg-border" />
+              <div className="p-4 flex flex-row items-center justify-between">
+                <Label
+                  htmlFor="aurora-enabled"
+                  className={cn("text-sm font-medium", pitchBlack && isDark && "opacity-50 cursor-not-allowed")}
+                  title={pitchBlack && isDark ? "Disabled when Pitch Black is active" : ""}
+                >
+                  Aurora Animated Background
+                </Label>
+                <Switch
+                  id="aurora-enabled"
+                  checked={auroraEnabled && !(pitchBlack && isDark)}
+                  onCheckedChange={(checked) => {
+                    setAuroraEnabled(checked);
+                    setStoredAuroraEnabled(checked);
+                  }}
+                  disabled={pitchBlack && isDark}
                   className="data-[state=checked]:bg-primary"
                 />
               </div>

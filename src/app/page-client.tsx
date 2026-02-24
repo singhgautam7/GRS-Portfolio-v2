@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { AuroraBackground } from '@/components/aurora-background';
 import { HeroResumeSection } from '@/components/sections/hero-resume';
 import { WhyMeSection } from '@/components/sections/why-me';
 import { ExperienceSection } from '@/components/sections/experience';
@@ -46,8 +47,10 @@ export default function HomePageClient({ jobs, projects, posts, nowContent }: Ho
   }, []);
 
   return (
-    <main>
-      <HeroResumeSection />
+    <>
+      <AuroraBackground />
+      <main>
+        <HeroResumeSection />
       <WhyMeSection />
       <ExperienceSection jobs={jobs} />
       <ProjectsTable projects={projects} />
@@ -55,5 +58,6 @@ export default function HomePageClient({ jobs, projects, posts, nowContent }: Ho
       <NowSection data={nowContent} />
       <ContactSection />
     </main>
+    </>
   );
 }
