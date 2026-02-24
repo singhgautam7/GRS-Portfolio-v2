@@ -38,7 +38,7 @@ const wittyNames: Record<string, string> = {
   'solar-gold': 'Praise The Sun',
   'deep-indigo': 'Midnight Purple',
   'neo-mint': 'Matrix Glitch',
-  'warm-coral': 'Spicy Salmon',
+  'blood-red': 'Blood Red',
   'plasma-orchid': 'Vaporwave Vibes',
   'cosmic-titan': 'Cosmic Titan',
   'molten-sunset': 'Molten Sunset',
@@ -59,15 +59,23 @@ export function ThemeMenu() {
   // Use resolvedTheme as the absolute source of truth to avoid 'system' mismatches
   const isDark = resolvedTheme === 'dark';
 
-  // Modal Scroll Lock Logic
+  // Modal Scroll Lock Logic & ESC Key Handler
   useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
     if (open) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => {
       document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEsc);
     };
   }, [open]);
 
@@ -96,9 +104,13 @@ export function ThemeMenu() {
 
     // Phase 2: Consolidated Reactive Sync
     // This executes consistently whenever any variable changes, eliminating race conditions.
-    setStoredAccent(accent);
-    setStoredPitchBlack(pitchBlack);
-    setStoredAuroraEnabled(auroraEnabled);
+    if (isSavePreferences) {
+      setStoredAccent(accent);
+      setStoredPitchBlack(pitchBlack);
+      setStoredAuroraEnabled(auroraEnabled);
+    } else {
+      applyAccentColor(accent); // apply visually but don't overwrite caches
+    }
 
     // Nuke previous transient caches, force DOM repaint through applyThemeMode
     applyThemeMode(isDark, pitchBlack, accent, auroraEnabled);
@@ -160,7 +172,7 @@ export function ThemeMenu() {
                             <button
                               onClick={() => {
                                 setAccent(palette.name);
-                                setStoredAccent(palette.name);
+                                setOpen(false);
                               }}
                               className={cn(
                                 'group relative flex flex-col items-center gap-1.5 transition-all outline-none',
@@ -229,7 +241,6 @@ export function ThemeMenu() {
                       // Reset pitch black when switching to light mode
                       if (pitchBlack) {
                         setPitchBlack(false);
-                        setStoredPitchBlack(false);
                       }
                       // Don't close dropdown
                     }}
@@ -251,7 +262,7 @@ export function ThemeMenu() {
                     onClick={() => {
                       setTheme('dark');
                       // Reapply dark mode surfaces with current accent
-                      const pitchBlackEnabled = getStoredPitchBlack();
+                      const pitchBlackEnabled = isSavePreferences ? getStoredPitchBlack() : false;
                       applyThemeMode(true, pitchBlackEnabled, accent);
                       // Don't close dropdown
                     }}
@@ -285,7 +296,6 @@ export function ThemeMenu() {
                   disabled={!isDark}
                   onChange={(val) => {
                     setPitchBlack(val);
-                    setStoredPitchBlack(val);
                   }}
                 />
 
@@ -297,7 +307,6 @@ export function ThemeMenu() {
                   disabled={pitchBlack && isDark}
                   onChange={(val) => {
                     setAuroraEnabled(val);
-                    setStoredAuroraEnabled(val);
                   }}
                 />
 
@@ -310,6 +319,11 @@ export function ThemeMenu() {
                   onChange={(val) => {
                     setIsSavePreferences(val);
                     localStorage.setItem('saveThemePreferences', val ? 'true' : 'false');
+                    if (val) {
+                      setStoredAccent(accent);
+                      setStoredPitchBlack(pitchBlack);
+                      setStoredAuroraEnabled(auroraEnabled);
+                    }
                   }}
                 />
               </div>

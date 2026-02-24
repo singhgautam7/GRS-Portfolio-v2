@@ -1,7 +1,7 @@
 'use client';
 
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import { useTheme } from 'next-themes';
 import {
   initializeTheme,
@@ -14,8 +14,12 @@ import {
 
 export function useThemeRoulette() {
   const { setTheme } = useTheme();
+  const initRef = useRef(false);
 
   useEffect(() => {
+    if (initRef.current) return;
+    initRef.current = true;
+
     // 1. Read persistence flag explicitly without touching mode/accents keys natively
     const isSaved = localStorage.getItem('saveThemePreferences') === 'true';
 
