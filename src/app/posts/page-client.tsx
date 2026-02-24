@@ -53,7 +53,7 @@ export default function PostsClient({ posts }: PostsClientProps) {
   }, [posts, searchQuery, selectedTags, sortOrder]);
 
   return (
-    <main className="py-24 sm:py-32">
+    <div className="min-h-screen bg-background pt-24 pb-32">
       <div className="mx-auto max-w-content px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -207,6 +207,6 @@ export default function PostsClient({ posts }: PostsClientProps) {
           </AnimatePresence>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
