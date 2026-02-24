@@ -1,5 +1,5 @@
 // Material You theme system
-export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'warm-coral';
+export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'warm-coral' | 'nebula-glass';
 
 export interface AccentPalette {
   name: AccentColor;
@@ -116,6 +116,21 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     darkBorder: '0 30% 20%',
     darkMuted: '0 25% 45%',
   },
+  'nebula-glass': {
+    name: 'nebula-glass',
+    hsl: '190 100% 50%',
+    rgb: '0, 255, 255',
+    tint: 'rgba(0, 255, 255, 0.08)',
+    glow: 'rgba(0, 255, 255, 0.15)',
+    lightSurface: '210 20% 98%',
+    lightSurfaceVariant: '210 20% 96%',
+    lightBorder: '0 0% 85%',
+    lightMuted: '210 20% 45%',
+    darkSurface: '250 50% 5%',
+    darkSurfaceVariant: '250 50% 8%',
+    darkBorder: '0 0% 100%',
+    darkMuted: '250 25% 45%',
+  },
 };
 
 const ACCENT_STORAGE_KEY = 'grs-portfolio-accent';
@@ -175,6 +190,12 @@ export function applyAccentColor(accent: AccentColor, isDarkOverride?: boolean) 
 
   const root = document.documentElement;
   const isDark = isDarkOverride !== undefined ? isDarkOverride : root.classList.contains('dark');
+
+  if (accent === 'nebula-glass') {
+    document.documentElement.classList.add('theme-nebula-glass');
+  } else {
+    document.documentElement.classList.remove('theme-nebula-glass');
+  }
 
   const currentHsl = (!isDark && palette.lightHsl) ? palette.lightHsl : palette.hsl;
   const currentTint = (!isDark && palette.lightTint) ? palette.lightTint : palette.tint;

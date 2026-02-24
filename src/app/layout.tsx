@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LayoutWrapper } from '@/components/layout-wrapper';
+import { NebulaHero } from '@/components/nebula-hero';
 import { siteConfig } from '@/lib/config';
 
 const inter = Inter({
@@ -55,6 +56,7 @@ export default function RootLayout({
           <a href="#content" className="skip-to-content">
             Skip to Content
           </a>
+          <NebulaHero />
           <LayoutWrapper>{children}</LayoutWrapper>
         </ThemeProvider>
       </body>

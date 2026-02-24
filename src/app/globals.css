@@ -97,6 +97,32 @@
     --chart-5: 340 75% 55%;
   }
 
+  /* =========================================
+     NEBULA GLASS PREMIUM THEME
+     ========================================= */
+
+  /* Light Mode */
+  .theme-nebula-glass {
+    --background: 210 20% 98%; /* Stark Icy White */
+    --accent: 190 100% 50%; /* Star-Blue/Cyan */
+    --card: 0 0% 100%; /* Base White */
+    --popover: 0 0% 100%;
+    --border: 0 0% 85%; /* Refractive edge */
+    --foreground: 220 50% 10%;
+  }
+
+  /* Dark Mode */
+  .dark .theme-nebula-glass,
+  .dark.theme-nebula-glass,
+  .theme-nebula-glass.dark {
+    --background: 250 50% 5%; /* Deep Pitch Indigo */
+    --accent: 190 100% 50%; /* Star-Blue/Cyan */
+    --card: 0 0% 100%; /* Base White for glass mixing */
+    --popover: 0 0% 100%;
+    --border: 0 0% 100%; /* Edge reflection */
+    --foreground: 0 0% 100%;
+  }
+
   * {
     @apply border-border;
   }
@@ -277,6 +303,43 @@ figure[data-rehype-pretty-code-figure] {
   .btn-press {
     @apply transition-transform active:scale-95;
   }
+  /* Enhanced Refractive Glass Surface */
+  .nebula-surface,
+  .theme-nebula-glass #content > section > div,
+  .theme-nebula-glass header,
+  .theme-nebula-glass [role="dialog"],
+  .theme-nebula-glass .card,
+  .theme-nebula-glass .timeline-card {
+    /* Uses the HSL channel but explicitly applies 5% opacity for dark mode and 40% for light mode */
+    background-color: hsl(var(--card) / 0.4) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+    border: 1px solid hsl(var(--border) / 0.15) !important;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .dark .theme-nebula-glass .nebula-surface,
+  .theme-nebula-glass.dark .nebula-surface,
+  .dark.theme-nebula-glass #content > section > div,
+  .dark.theme-nebula-glass header,
+  .dark.theme-nebula-glass [role="dialog"],
+  .dark.theme-nebula-glass .card,
+  .dark.theme-nebula-glass .timeline-card {
+    background-color: hsl(var(--card) / 0.05) !important; /* rgba(255, 255, 255, 0.05) equivalent */
+    border: 1px solid hsl(var(--border) / 0.1) !important;
+  }
 }
 
-
+/* Optional CSS Animations for Nebula floating blobs */
+@keyframes nebula-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -50px) scale(1.05); }
+}
+@keyframes nebula-float-reverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, 50px) scale(0.95); }
+}
+.animate-nebula-float { animation: nebula-float 20s ease-in-out infinite; }
+.animate-nebula-float-reverse { animation: nebula-float-reverse 25s ease-in-out infinite; }
