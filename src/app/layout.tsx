@@ -3,6 +3,8 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LayoutWrapper } from '@/components/layout-wrapper';
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { siteConfig } from '@/lib/config';
 
 const inter = Inter({
@@ -56,6 +58,8 @@ export default function RootLayout({
             Skip to Content
           </a>
           <LayoutWrapper>{children}</LayoutWrapper>
+          <SpeedInsights />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
