@@ -1,5 +1,5 @@
 // Material You theme system
-export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'warm-coral';
+export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'blood-red' | 'cosmic-titan' | 'molten-sunset';
 
 export interface AccentPalette {
   name: AccentColor;
@@ -73,18 +73,18 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
   },
   'deep-indigo': {
     name: 'deep-indigo',
-    hsl: '258 90% 66%', // #7C4DFF
-    rgb: '124, 77, 255',
-    tint: 'rgba(124, 77, 255, 0.08)',
-    glow: 'rgba(124, 77, 255, 0.15)',
-    lightSurface: '258 100% 98%', // #F7F4FF
-    lightSurfaceVariant: '258 100% 96%', // #F1ECFF
-    lightBorder: '258 30% 88%',
-    lightMuted: '258 20% 45%',
-    darkSurface: '258 50% 8%', // Very dark purple
-    darkSurfaceVariant: '258 40% 12%',
-    darkBorder: '258 30% 20%',
-    darkMuted: '258 25% 45%',
+    hsl: '262 83% 58%', // #7C3AED
+    rgb: '124, 58, 237',
+    tint: 'rgba(124, 58, 237, 0.08)',
+    glow: 'rgba(124, 58, 237, 0.15)',
+    lightSurface: '262 100% 98%', // #F7F4FF
+    lightSurfaceVariant: '262 100% 96%', // #F1ECFF
+    lightBorder: '262 30% 88%',
+    lightMuted: '262 20% 45%',
+    darkSurface: '262 50% 8%', // Very dark purple
+    darkSurfaceVariant: '262 40% 12%',
+    darkBorder: '262 30% 20%',
+    darkMuted: '262 25% 45%',
   },
   'neo-mint': {
     name: 'neo-mint',
@@ -101,20 +101,50 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     darkBorder: '142 30% 18%',
     darkMuted: '142 25% 42%',
   },
-  'warm-coral': {
-    name: 'warm-coral',
-    hsl: '0 100% 71%', // #FF6B6B
-    rgb: '255, 107, 107',
-    tint: 'rgba(255, 107, 107, 0.08)',
-    glow: 'rgba(255, 107, 107, 0.15)',
+  'blood-red': {
+    name: 'blood-red',
+    hsl: '0 65% 51%', // #D32F2F
+    rgb: '211, 47, 47',
+    tint: 'rgba(211, 47, 47, 0.08)',
+    glow: 'rgba(211, 47, 47, 0.15)',
     lightSurface: '0 100% 98%', // #FFF5F5
     lightSurfaceVariant: '0 100% 96%', // #FFECEC
     lightBorder: '0 30% 88%',
     lightMuted: '0 20% 45%',
-    darkSurface: '0 50% 8%', // Very dark red
+    darkSurface: '0 50% 8%', // subtle dark red
     darkSurfaceVariant: '0 40% 12%',
     darkBorder: '0 30% 20%',
     darkMuted: '0 25% 45%',
+  },
+  'cosmic-titan': {
+    name: 'cosmic-titan',
+    hsl: '292 84% 61%', // #D946EF
+    rgb: '217, 70, 239',
+    tint: 'rgba(217, 70, 239, 0.08)',
+    glow: 'rgba(217, 70, 239, 0.15)',
+    lightSurface: '292 60% 98%',
+    lightSurfaceVariant: '292 60% 95%',
+    lightBorder: '292 30% 88%',
+    lightMuted: '292 20% 45%',
+    darkSurface: '292 50% 8%', // Deep cosmic purple
+    darkSurfaceVariant: '292 40% 12%',
+    darkBorder: '292 30% 20%',
+    darkMuted: '292 25% 45%',
+  },
+  'molten-sunset': {
+    name: 'molten-sunset',
+    hsl: '24 95% 55%', // Orange-amber gradient tone
+    rgb: '250, 102, 30',
+    tint: 'rgba(250, 102, 30, 0.08)',
+    glow: 'rgba(250, 102, 30, 0.15)',
+    lightSurface: '24 60% 98%',
+    lightSurfaceVariant: '24 60% 95%',
+    lightBorder: '24 30% 88%',
+    lightMuted: '24 20% 45%',
+    darkSurface: '24 50% 8%', // Warm dark ember
+    darkSurfaceVariant: '24 40% 12%',
+    darkBorder: '24 30% 20%',
+    darkMuted: '24 25% 45%',
   },
 };
 
@@ -132,8 +162,9 @@ export function getStoredAccent(): AccentColor {
     'emerald': 'neo-mint',
     'blue': 'google-blue',
     'violet': 'deep-indigo',
-    'orange': 'warm-coral',
-    'rose': 'warm-coral',
+    'orange': 'blood-red',
+    'rose': 'blood-red',
+    'warm-coral': 'blood-red',
   };
 
   const migrated = migrationMap[stored] || stored;
