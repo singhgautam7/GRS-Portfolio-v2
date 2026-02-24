@@ -1,5 +1,5 @@
 // Material You theme system
-export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'warm-coral';
+export type AccentColor = 'google-blue' | 'cyan-tech' | 'solar-gold' | 'deep-indigo' | 'neo-mint' | 'warm-coral' | 'cosmic-titan' | 'molten-sunset';
 
 export interface AccentPalette {
   name: AccentColor;
@@ -115,6 +115,36 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     darkSurfaceVariant: '0 40% 12%',
     darkBorder: '0 30% 20%',
     darkMuted: '0 25% 45%',
+  },
+  'cosmic-titan': {
+    name: 'cosmic-titan',
+    hsl: '280 80% 60%', // Vibrant purple-magenta
+    rgb: '178, 66, 255',
+    tint: 'rgba(178, 66, 255, 0.08)',
+    glow: 'rgba(178, 66, 255, 0.15)',
+    lightSurface: '280 60% 98%',
+    lightSurfaceVariant: '280 60% 95%',
+    lightBorder: '280 30% 88%',
+    lightMuted: '280 20% 45%',
+    darkSurface: '280 50% 8%', // Deep cosmic purple
+    darkSurfaceVariant: '280 40% 12%',
+    darkBorder: '280 30% 20%',
+    darkMuted: '280 25% 45%',
+  },
+  'molten-sunset': {
+    name: 'molten-sunset',
+    hsl: '24 95% 55%', // Orange-amber gradient tone
+    rgb: '250, 102, 30',
+    tint: 'rgba(250, 102, 30, 0.08)',
+    glow: 'rgba(250, 102, 30, 0.15)',
+    lightSurface: '24 60% 98%',
+    lightSurfaceVariant: '24 60% 95%',
+    lightBorder: '24 30% 88%',
+    lightMuted: '24 20% 45%',
+    darkSurface: '24 50% 8%', // Warm dark ember
+    darkSurfaceVariant: '24 40% 12%',
+    darkBorder: '24 30% 20%',
+    darkMuted: '24 25% 45%',
   },
 };
 

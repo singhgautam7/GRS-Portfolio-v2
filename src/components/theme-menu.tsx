@@ -32,6 +32,18 @@ import {
   setStoredAuroraEnabled,
 } from '@/lib/theme';
 
+const wittyNames: Record<string, string> = {
+  'google-blue': 'Corporate Core',
+  'cyan-tech': 'Hacker Man',
+  'solar-gold': 'Praise The Sun',
+  'deep-indigo': 'Midnight Purple',
+  'neo-mint': 'Matrix Glitch',
+  'warm-coral': 'Spicy Salmon',
+  'plasma-orchid': 'Vaporwave Vibes',
+  'cosmic-titan': 'Cosmic Titan',
+  'molten-sunset': 'Molten Sunset',
+};
+
 export function ThemeMenu() {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -42,22 +54,48 @@ export function ThemeMenu() {
   });
   const [pitchBlack, setPitchBlack] = useState(false);
   const [auroraEnabled, setAuroraEnabled] = useState(false);
+  const [isSavePreferences, setIsSavePreferences] = useState(false);
 
   // Use resolvedTheme as the absolute source of truth to avoid 'system' mismatches
   const isDark = resolvedTheme === 'dark';
+
+  // Modal Scroll Lock Logic
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [open]);
 
   useEffect(() => {
     // Phase 1: Mount initialization
     setMounted(true);
     if (!mounted) {
-      setAccent(getStoredAccent());
-      setPitchBlack(getStoredPitchBlack());
-      setAuroraEnabled(getStoredAuroraEnabled());
-      return; // Exit early on first pass to let state settle
+      const isSaved = localStorage.getItem('saveThemePreferences') === 'true';
+      setIsSavePreferences(isSaved);
+
+      if (isSaved) {
+        setAccent(getStoredAccent());
+        setPitchBlack(getStoredPitchBlack());
+        setAuroraEnabled(getStoredAuroraEnabled());
+      } else {
+        // Hydrate actively rolled visual state if user isn't using saved preferences
+        const availableThemes = Object.keys(accentPalettes) as AccentColor[];
+        const lastIndexStr = localStorage.getItem('lastThemeIndex');
+        const lastIndex = lastIndexStr ? parseInt(lastIndexStr, 10) : 0;
+        setAccent(availableThemes[lastIndex] || 'google-blue');
+        setPitchBlack(false);
+        setAuroraEnabled(true);
+      }
+      return;
     }
 
     // Phase 2: Consolidated Reactive Sync
-    // This executes consistently whenever any variable changes, completely eliminating race conditions.
+    // This executes consistently whenever any variable changes, eliminating race conditions.
     setStoredAccent(accent);
     setStoredPitchBlack(pitchBlack);
     setStoredAuroraEnabled(auroraEnabled);
@@ -110,7 +148,7 @@ export function ThemeMenu() {
                   Accent Color
                 </p>
                 <TooltipProvider delayDuration={200}>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-4 gap-3">
                     {Object.values(accentPalettes).map((palette) => {
                       const isSelected = accent === palette.name;
                       // Determine the outer squarcle background based on mode and palette
@@ -168,7 +206,7 @@ export function ThemeMenu() {
                             </button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p className="capitalize">{palette.name.replace('-', ' ')}</p>
+                            <p className="font-medium text-xs">{wittyNames[palette.name] || palette.name.replace('-', ' ')}</p>
                           </TooltipContent>
                         </Tooltip>
                       );
@@ -234,52 +272,64 @@ export function ThemeMenu() {
                 </div>
               </div>
 
-              {/* Pitch Black Toggle - Always visible */}
-              <div className="h-px bg-border" />
-              <div className="p-4 flex flex-row items-center justify-between">
-                <Label
-                  htmlFor="pitch-black"
-                  className={cn("text-sm font-medium", !isDark && "opacity-50 cursor-not-allowed")}
-                >
-                  Pitch black in dark mode
-                </Label>
-                <Switch
-                  id="pitch-black"
-                  checked={pitchBlack && isDark}
-                  onCheckedChange={(checked) => {
-                    setPitchBlack(checked);
-                    setStoredPitchBlack(checked);
-                  }}
-                  disabled={!isDark}
-                  className="data-[state=checked]:bg-primary"
-                />
-              </div>
+              <div className="h-px bg-border/50" />
 
-              {/* Aurora Background Toggle */}
-              <div className="h-px bg-border" />
-              <div className="p-4 flex flex-row items-center justify-between">
-                <Label
-                  htmlFor="aurora-enabled"
-                  className={cn("text-sm font-medium", pitchBlack && isDark && "opacity-50 cursor-not-allowed")}
-                  title={pitchBlack && isDark ? "Disabled when Pitch Black is active" : ""}
-                >
-                  Aurora Animated Background
-                </Label>
-                <Switch
-                  id="aurora-enabled"
-                  checked={auroraEnabled && !(pitchBlack && isDark)}
-                  onCheckedChange={(checked) => {
-                    setAuroraEnabled(checked);
-                    setStoredAuroraEnabled(checked);
+              {/* Toggles */}
+              <div className="border-t border-border/50 bg-background/50 px-4 py-2 mt-4 space-y-2">
+
+                <SettingToggle
+                  id="pitch-black"
+                  label="Pitch Black"
+                  description="Only available in dark mode"
+                  checked={pitchBlack && isDark}
+                  disabled={!isDark}
+                  onChange={(val) => {
+                    setPitchBlack(val);
+                    setStoredPitchBlack(val);
                   }}
+                />
+
+                <SettingToggle
+                  id="aurora-enabled"
+                  label="Aurora Animated Background"
+                  description="Add aurora effect in the home screen"
+                  checked={auroraEnabled && !(pitchBlack && isDark)}
                   disabled={pitchBlack && isDark}
-                  className="data-[state=checked]:bg-primary"
+                  onChange={(val) => {
+                    setAuroraEnabled(val);
+                    setStoredAuroraEnabled(val);
+                  }}
+                />
+
+                <SettingToggle
+                  id="save-theme-preferences"
+                  label="Save your theme preferences"
+                  description="I will save your color preferences for the next time you visit here"
+                  checked={isSavePreferences}
+                  disabled={false}
+                  onChange={(val) => {
+                    setIsSavePreferences(val);
+                    localStorage.setItem('saveThemePreferences', val ? 'true' : 'false');
+                  }}
                 />
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+// Full Width Responsive Stacked Toggle
+function SettingToggle({ id, label, description, checked, disabled, onChange }: { id: string, label: string, description: string, checked: boolean, disabled: boolean, onChange: (val: boolean) => void }) {
+  return (
+    <div className="flex flex-row items-center justify-between gap-4 py-2">
+      <div className="flex flex-col gap-1 text-left">
+        <Label htmlFor={id} className={cn("text-sm font-medium leading-none text-foreground cursor-pointer tracking-tight", disabled && "opacity-50 cursor-not-allowed")}>{label}</Label>
+        <p className={cn("text-xs text-muted-foreground", disabled && "opacity-50")} leading-relaxed>{description}</p>
+      </div>
+      <Switch id={id} checked={checked} disabled={disabled} onCheckedChange={onChange} className="data-[state=checked]:bg-primary shrink-0" />
     </div>
   );
 }
