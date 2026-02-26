@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeInitScript } from '@/components/theme-init-script';
 import { LayoutWrapper } from '@/components/layout-wrapper';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
@@ -52,6 +53,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeInitScript />
+      </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
         <ThemeProvider>
           <a href="#content" className="skip-to-content">
