@@ -28,28 +28,32 @@ export function useThemeRoulette() {
       const storedTheme = localStorage.getItem('theme');
       if (storedTheme) setTheme(storedTheme);
 
-      const storedAccent = getStoredAccent();
+      const storedAccent = (window as any).__themeRolledSaved || getStoredAccent();
       applyAccentColor(storedAccent);
     } else {
       // Casual User Randomizer - Always defaults to dark
       setTheme('dark');
 
-      const availableThemes = Object.keys(accentPalettes) as AccentColor[];
-      const lastIndexStr = localStorage.getItem('lastThemeIndex');
-      const lastIndex = lastIndexStr ? parseInt(lastIndexStr, 10) : -1;
+      let chosenTheme = (window as any).__themeRolled;
 
-      // Select index securely never repeating
-      let newIndex = Math.floor(Math.random() * availableThemes.length);
-      if (availableThemes.length > 1) {
-        while (newIndex === lastIndex) {
-          newIndex = Math.floor(Math.random() * availableThemes.length);
+      if (!chosenTheme) {
+        // Fallback for SPA navigation without hard refresh
+        const availableThemes = Object.keys(accentPalettes) as AccentColor[];
+        const lastIndexStr = localStorage.getItem('lastThemeIndex');
+        const lastIndex = lastIndexStr ? parseInt(lastIndexStr, 10) : -1;
+
+        // Select index securely never repeating
+        let newIndex = Math.floor(Math.random() * availableThemes.length);
+        if (availableThemes.length > 1) {
+          while (newIndex === lastIndex) {
+            newIndex = Math.floor(Math.random() * availableThemes.length);
+          }
         }
+
+        chosenTheme = availableThemes[newIndex];
+        // Save index non-destructively
+        localStorage.setItem('lastThemeIndex', newIndex.toString());
       }
-
-      const chosenTheme = availableThemes[newIndex];
-
-      // Save index non-destructively
-      localStorage.setItem('lastThemeIndex', newIndex.toString());
 
       // Paint randomized properties purely visually
       applyAccentColor(chosenTheme, true);
