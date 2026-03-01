@@ -195,10 +195,10 @@ export function setStoredPitchBlack(enabled: boolean) {
 }
 
 export function getStoredAuroraEnabled(): boolean {
-  if (typeof window === 'undefined') return true;
+  if (typeof window === 'undefined') return false;
   const stored = localStorage.getItem(AURORA_STORAGE_KEY);
-  // Default to true if not set
-  if (stored === null) return true;
+  // Default to false if not set
+  if (stored === null) return false;
   return stored === 'true';
 }
 

@@ -57,7 +57,7 @@ export function useThemeRoulette() {
 
       // Paint randomized properties purely visually
       applyAccentColor(chosenTheme, true);
-      applyThemeMode(true, false, chosenTheme, true);
+      applyThemeMode(true, false, chosenTheme, false);
     }
   }, [setTheme]);
 }

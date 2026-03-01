@@ -97,7 +97,7 @@ export function ThemeMenu() {
         const lastIndex = lastIndexStr ? parseInt(lastIndexStr, 10) : 0;
         setAccent(availableThemes[lastIndex] || 'google-blue');
         setPitchBlack(false);
-        setAuroraEnabled(true);
+        setAuroraEnabled(false);
       }
       return;
     }
