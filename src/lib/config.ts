@@ -8,9 +8,9 @@ export const YEARS_OF_EXPERIENCE = Math.round(rawYears * 2) / 2;
 
 export const siteConfig = {
     name: 'Gautam Singh',
-    title: "Hey Stranger 👋, I am Gautam",
+    title: "Hey Stranger 👋, I'm Gautam",
     description:
-        'Gautam Singh is a backend & infrastructure engineer building scalable systems, cloud-native architectures, and developer-focused tooling.',
+        'I am a backend & infrastructure engineer building scalable systems, cloud-native architectures, and developer-focused tooling.',
     siteUrl: 'https://www.singhgautam.com',
     email: 'gautamsingh1997@gmail.com',
     role: 'Senior Software Engineer',
