@@ -33,11 +33,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '228 100% 98%', // #F5F8FF
     lightSurfaceVariant: '224 100% 96%', // #EEF3FF
     lightBorder: '214 30% 88%',
-    lightMuted: '214 20% 45%',
+    lightMuted: '214 20% 30%',
     darkSurface: '214 50% 8%', // Very dark blue
     darkSurfaceVariant: '214 40% 12%',
     darkBorder: '214 30% 20%',
-    darkMuted: '214 25% 45%',
+    darkMuted: '214 25% 75%',
   },
   'cyan-tech': {
     name: 'cyan-tech',
@@ -48,11 +48,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '188 80% 97%', // #E6F8FC
     lightSurfaceVariant: '188 80% 95%',
     lightBorder: '188 30% 88%',
-    lightMuted: '188 20% 45%',
+    lightMuted: '188 20% 30%',
     darkSurface: '188 50% 7%', // Very dark cyan
     darkSurfaceVariant: '188 40% 11%',
     darkBorder: '188 30% 19%',
-    darkMuted: '188 25% 44%',
+    darkMuted: '188 25% 75%',
   },
   'solar-gold': {
     name: 'solar-gold',
@@ -65,11 +65,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '44 100% 98%', // Soft gold tint
     lightSurfaceVariant: '44 100% 96%',
     lightBorder: '44 30% 88%',
-    lightMuted: '44 20% 45%',
+    lightMuted: '44 20% 30%',
     darkSurface: '44 50% 6%', // Very dark gold ground
     darkSurfaceVariant: '44 40% 10%',
     darkBorder: '44 30% 18%',
-    darkMuted: '44 25% 45%',
+    darkMuted: '44 25% 75%',
   },
   'deep-indigo': {
     name: 'deep-indigo',
@@ -80,11 +80,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '262 100% 98%', // #F7F4FF
     lightSurfaceVariant: '262 100% 96%', // #F1ECFF
     lightBorder: '262 30% 88%',
-    lightMuted: '262 20% 45%',
+    lightMuted: '262 20% 30%',
     darkSurface: '262 50% 8%', // Very dark purple
     darkSurfaceVariant: '262 40% 12%',
     darkBorder: '262 30% 20%',
-    darkMuted: '262 25% 45%',
+    darkMuted: '262 25% 75%',
   },
   'neo-mint': {
     name: 'neo-mint',
@@ -95,11 +95,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '146 60% 97%', // #F4FBF7
     lightSurfaceVariant: '145 60% 95%', // #ECF7F1
     lightBorder: '142 30% 88%',
-    lightMuted: '142 20% 45%',
+    lightMuted: '142 20% 30%',
     darkSurface: '142 50% 6%', // Very dark green
     darkSurfaceVariant: '142 40% 10%',
     darkBorder: '142 30% 18%',
-    darkMuted: '142 25% 42%',
+    darkMuted: '142 25% 75%',
   },
   'blood-red': {
     name: 'blood-red',
@@ -110,11 +110,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '0 100% 98%', // #FFF5F5
     lightSurfaceVariant: '0 100% 96%', // #FFECEC
     lightBorder: '0 30% 88%',
-    lightMuted: '0 20% 45%',
+    lightMuted: '0 20% 30%',
     darkSurface: '0 50% 8%', // subtle dark red
     darkSurfaceVariant: '0 40% 12%',
     darkBorder: '0 30% 20%',
-    darkMuted: '0 25% 45%',
+    darkMuted: '0 25% 75%',
   },
   'cosmic-titan': {
     name: 'cosmic-titan',
@@ -125,11 +125,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '292 60% 98%',
     lightSurfaceVariant: '292 60% 95%',
     lightBorder: '292 30% 88%',
-    lightMuted: '292 20% 45%',
+    lightMuted: '292 20% 30%',
     darkSurface: '292 50% 8%', // Deep cosmic purple
     darkSurfaceVariant: '292 40% 12%',
     darkBorder: '292 30% 20%',
-    darkMuted: '292 25% 45%',
+    darkMuted: '292 25% 75%',
   },
   'molten-sunset': {
     name: 'molten-sunset',
@@ -140,11 +140,11 @@ export const accentPalettes: Record<AccentColor, AccentPalette> = {
     lightSurface: '24 60% 98%',
     lightSurfaceVariant: '24 60% 95%',
     lightBorder: '24 30% 88%',
-    lightMuted: '24 20% 45%',
+    lightMuted: '24 20% 30%',
     darkSurface: '24 50% 8%', // Warm dark ember
     darkSurfaceVariant: '24 40% 12%',
     darkBorder: '24 30% 20%',
-    darkMuted: '24 25% 45%',
+    darkMuted: '24 25% 75%',
   },
 };
 
